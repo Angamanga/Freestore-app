@@ -1,9 +1,11 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: red;
+  background-color: #F3D9DC;
 }
 
 a {
   color: #00B7FF;
 }
+
+DEBUG=1:* ./bin/www
