@@ -6,4 +6,4 @@ router.get('/newThing', function(req, res, next) {
   res.send('newThing');
 });
 
-module.exports = router;
+module.exports = newThing;
