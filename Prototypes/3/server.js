@@ -1,19 +1,16 @@
-var http = require("http");
-var url = require("url");
+var express = require('express');
+var ejs = require('ejs');
 
-function start(route, handle){
-function onRequest(request,response){
-	var pathname = url.parse(request.url).pathname;
-	console.log("Request for " + pathname + " received");
-	response.writeHead(200, {"Content-Type":"text/plain"});
-	var content = route(handle, pathname);
-	response.write(content);
-	response.end();
-}
+var app = express();
 
-http.createServer(onRequest).listen(8888);
-console.log('server has started');
+app.set('view engine', 'ejs');
 
-}
 
-exports.start = start;
+app.get('/',function (req, res) {
+	res.render('index', {title:"sök efter en sak"});
+
+
+})
+
+
+app.listen(8080);

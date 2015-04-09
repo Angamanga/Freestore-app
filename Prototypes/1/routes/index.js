@@ -8,7 +8,9 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/newThing', function(req, res, next) {
+  res.render('newThing',{title:'Add new thing', doing:'showing new thing page!!!'});
   res.send('newThing');
+
 });
 
 
