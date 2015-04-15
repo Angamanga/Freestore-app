@@ -1,3 +1,5 @@
+//söksida/startsida
+
 exports.search = function(){
 	return '<form action="/search" method="post">'+
 			'Sök'+

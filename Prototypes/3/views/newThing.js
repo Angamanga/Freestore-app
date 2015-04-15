@@ -1,3 +1,5 @@
+//exporterar html-string for ny sak
+
 exports.newThing = function(){
 		return '<form action="/search" method="post">'+
 			'<div>'+
