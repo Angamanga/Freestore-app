@@ -1,7 +1,8 @@
-var Thing = require('./model/thing');
 var bodyParser = require('body-parser');
-//var index = require('./views/index');
-module.exports = function(app){
+
+module.exports = function(app,db){
+    
+    var things = db.collection('things');
     
     app.get('/',function(req,res){
        res.render('index');
@@ -10,17 +11,44 @@ module.exports = function(app){
     app.get('/nysak',function(req,res){
         res.render('newThing');
     });
+
     app.post('/nysak',function(req,res){
-        var titel = req.body.title;
-        var beskrivning = req.body.description;
-        console.log("titeln ar: " + titel + "och beskrivningen ar: " + beskrivning);
-        res.end('yes');
-    
+         var newThing = {
+            title:req.body.title,
+            description:req.body.description
+        };
+        things.insert(newThing, function(err, result){
+            if(err){
+                res.send(err);
+            }
+            else{
+            res.render('saveSucess',{thing:result}) 
+            }
+            });
     });
+
+    app.get('/sak', function(req,res){
         
-    app.get('/sak/:thing_id', function(req,res){
-        //to be implemented
+        things.find().toArray(function(err, result){
+            if(err){
+                res.send(err);
+            }
+            else{
+                res.json(result);
+            }
+            });
     });
-    
-   
+        //Funkar inte...
+    app.get('/sak/:thing_id', function(req,res){
+        var findString = 'ObjectId("' + req.params.thing_id + '")';
+        things.find({_id:findString}, function(err,result){
+            if(err){
+                res.send(err);
+            }
+            else{
+                console.log(findString);
+                res.json(result);      
+            }
+        });
+    });
 };
