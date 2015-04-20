@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title> Sök </title>
-      
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-	<div id="render">
-<form id        =  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/api/photo"
-     method    =  "post"
->
-<input type="file" name="userPhoto" />
-<input type="submit" value="Upload Image" name="submit">
-</form>
-        
-          </div>  
+</head>
+
+<body>
+    <div id="render">
+
+        <form id="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post">
+
+            <input type="file" name="image" />
+            <input type="submit" value="Upload Image">
+        </form>
+
+    </div>
 </body>
-	</html>
 
-
+</html>

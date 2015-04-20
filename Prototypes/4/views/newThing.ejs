@@ -1,42 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title> Sök </title>
-      
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-      
-      
-	<div id="render">
-	
-       <form method="post">
-			<div>
-			Lägg till ny sak att ge bort
-			</div>
-			<div>
-			Titel:<input type = "text" name='title'>
-			</div>
-<!--
-			<div>
-			Kategori:<input type = "text">
-			</div>
--->
-			<div>
-                Text:<textarea rows="30" cols="30" name='description'>
-			</textarea>
-			</div>
-			<div>
-			<input type = "submit" value="Förhandsgranska">
-			</div>
-           
-       
-<input type="file" name="userPhoto" />
-<input type="submit" value="Upload Image" name="submit">
-</form>
-			</form>
-			<a href="/">Tillbaka till sök</a>
-      
-	</div>
+</head>
+
+<body>
+
+
+    <div id="render">
+
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                Lägg till ny sak att ge bort
+            </div>
+            <div>
+                Titel:
+                <input type="text" name='title'>
+            </div>
+
+            <div>
+                Kategori:
+                <select name="category">
+                    <option value="clothes">Kläder</option>
+                    <option value="kids">Barn</option>
+                    <option value="home">För hemmet</option>
+                    <option value="cars">Fordon</option>
+                    <option value="electronics">Hemelektronik</option>
+                    <option value="outdoor">Sport och fritid</option>
+                </select>
+            </div>
+            <div>
+                Kontakt: Telefonnummer:
+                <input type="text" name="telephone"> Epost:
+                <input type="email" name="email">
+            </div>
+            <div>Plats:</div>
+            <select name="location">
+                <option value="uppsala">Uppsala</option>
+                <option value="stockholm">Stockholm</option>
+                <option value="falun">Falun</option>
+                <option value="malmo">Malmö</option>
+                <option value="goteborg">Göteborg</option>
+            </select>
+            <div>
+                Text:
+                <textarea rows="30" cols="30" name='description'>
+                </textarea>
+            </div>
+            <div>
+                Välj foto:
+                <input type="file" name='image' />
+            </div>
+            <div>
+                <input type="submit" value="Förhandsgranska">
+            </div>
+
+        </form>
+
+        <a href="/">Tillbaka till sök</a>
+
+    </div>
 </body>
-	</html>
+
+</html>
