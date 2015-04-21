@@ -5,7 +5,8 @@ module.exports = function (app, db) {
 
     //definierar collection things
     var things = db.collection('things');
-
+    //definierar nysakobjekt
+    var newThing={};
     //konfigurerar cloudinary //configure cloudinary
     var cloudinaryCredentials = {
         cloud_name: 'angamanga',
@@ -35,9 +36,11 @@ module.exports = function (app, db) {
 
         //läser först in bild
         var imageFile = req.files.image;
+        
         cloudinary.uploader.upload(imageFile.path, function (result) {
             if (result.url) {
-                var newThing = {
+                //skapar ett objekt 
+                newThing = {
                     title: req.body.title,
                     category: req.body.category,
                     description: req.body.description,
@@ -49,27 +52,36 @@ module.exports = function (app, db) {
                     location: req.body.location,
                     photopath: result.url
                 };
-                console.log(newThing.photopath);
-                things.insert(newThing, function (err, result) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        //visar saveSucess om allt funkar
-                        res.render('saveSucess', {
-                            thing: result
-                        })
-                    }
-                });
+                res.redirect('/forhandsgranska');
             } else {
                 console.log('error uploading to cloudinary: ', result);
                 res.send('did not get url');
             }
         });
-
-
-
     });
-
+    
+    app.get('/forhandsgranska', function(req,res){
+         
+        res.render('saveSucess', newThing);
+         console.log(newThing); 
+                });
+              
+    app.post('/forhandsgranska',function(req,res){
+        console.log(newThing);
+        res.send(newThing);
+//        //lägger objektet i databasen
+//          things.insert(newThing, function (err, result) {
+//               
+//                               if (err) {
+//                                res.send(err);
+//                                } else {
+//                                        //visar saveSucess om allt funkar
+//                                        res.send('sparat objektet!');
+//                                    }
+//                });
+         });
+    
+    
     //visar allt innehåll i databasen
     app.get('/sak', function (req, res) {
 
