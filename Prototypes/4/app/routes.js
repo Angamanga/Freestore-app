@@ -1,10 +1,14 @@
 var bodyParser = require('body-parser'),
     cloudinary = require('cloudinary');
 var fileParser = require('connect-multiparty')();
+var BSON = require('mongodb').BSONPure;
+var ObjectID = require('mongodb').ObjectID;
+
 module.exports = function (app, db) {
 
     //definierar collection things
     var things = db.collection('things');
+    
     //definierar nysakobjekt
     var newThing={};
     //konfigurerar cloudinary //configure cloudinary
@@ -61,24 +65,25 @@ module.exports = function (app, db) {
     });
     
     app.get('/forhandsgranska', function(req,res){
-         
         res.render('saveSucess', newThing);
-         console.log(newThing); 
-                });
+        });
               
-    app.post('/forhandsgranska',function(req,res){
-        console.log(newThing);
-        res.send(newThing);
-//        //lägger objektet i databasen
-//          things.insert(newThing, function (err, result) {
-//               
-//                               if (err) {
-//                                res.send(err);
-//                                } else {
-//                                        //visar saveSucess om allt funkar
-//                                        res.send('sparat objektet!');
-//                                    }
-//                });
+    app.get('/forhandsgranskaEdit',function(req,res){
+        res.render('newThingEdit',newThing);
+    });
+    app.get('/spara',function(req,res){
+          //lägger objektet i databasen
+          things.insert(newThing, function (err, result) {
+                       if (err) {
+                          res.send(err);
+                                } else {
+                            //visar objektet
+                                    var redirectUrl = '/sak/'+newThing._id;
+                                    res.redirect(redirectUrl);
+                                }
+                }); 
+      
+       
          });
     
     
@@ -94,6 +99,14 @@ module.exports = function (app, db) {
             }
         });
     });
+    
+    app.get('/sak/:thing_id', function(req,res){
+       
+        var thingID=ObjectID.createFromHexString(req.params.thing_id);
+        console.log('thingID:'+thingID);
+        things.findOne({_id:thingID},function(err, document){
+       res.render('thing',document);
+      });
+       
 
-
-};
+        });};

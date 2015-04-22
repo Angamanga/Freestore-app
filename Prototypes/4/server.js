@@ -42,6 +42,7 @@ MongoClient.connect(database.url, function (err, db) {
         console.log('Unable to connect to mongoDB server.Error', err);
     } else {
         console.log('Connection established to ' + database.url);
+       
         routes(app, db); //laddar routes och skickar med databasen om anslutningen till
         //databasen funkar
     }
