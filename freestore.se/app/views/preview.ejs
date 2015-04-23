@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Sök </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <div id="render">
+        <p class="success">
+
+        </p>
+        <form action="/spara">
+            <h1><%=title %></h1>
+            <img src=<%=photopath%> />
+            <%=category %>
+            <%=description %>
+            <%=contact.telephone %>
+            <%=contact.email %>
+            <%=time %>
+            <%=location %>
+            <a href="/sak">titta på alla saker</a>
+            <input type="submit">
+            <a href="/forhandsgranskaEdit">Ändra något</a>
+            <a href="/nysak">Rensa formulär</a>
+            <a href="/sok">Startsidan</a>
+        </form>
+    </div>
+</body>
+
+</html>
