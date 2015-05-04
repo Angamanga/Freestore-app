@@ -1,9 +1,15 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #F3D9DC;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #F3D9DC;
 }
 
 a {
-  color: #144253;
+    color: #144253;
+}
+img.thumb {
+    width:30%;
+    height:auto;
+    
+    
 }

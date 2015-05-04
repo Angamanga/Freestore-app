@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title> Sök </title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-    <div id="render">
-        <h1><%= title %></h1>
-        <img src=<%= photopath%> />
-        <%= category %>
-        <%= description %>
-        <%= contact.telephone %>
-        <%= contact.email %>
-        <%= time %>
-        <%= location %>
-        <a href="/sak">titta på alla saker</a>
-    </div>
-</body>
-</html>
+<div id="render">
+    <h1><%= title %></h1>
+    <br>
+    <img src=<%=photopath%> />
+    <br>
+    <%=category %>
+        <br>
+        <%=description %>
+            <br>
+            <%=contact.telephone %>
+                <br>
+                <%=contact.email %>
+                    <br>
+                    <%=time %>
+                        <br>
+                        <%=location %>
+                            <br>
+                            <a href="/sak">titta på alla saker</a>
+                            <br>
+                            <a href="/login">Logga in för att ändra eller ta bort din sak</a>
+</div>
