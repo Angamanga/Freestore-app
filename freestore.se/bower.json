@@ -1,0 +1,19 @@
+{
+  "name": "freestore.se",
+  "version": "0.0.0",
+  "homepage": "https://github.com/1dv430/ki222bj-project",
+  "authors": [
+    "Angamanga"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "cloudinary_ng": "~0.1.2"
+  }
+}

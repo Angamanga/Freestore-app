@@ -1,27 +1,79 @@
-<div id="render">
-    <p class="success">
+<!DOCTYPE html>
+<html>
 
-    </p>
-    <form action="/spara">
-        <h1><%=title %></h1>
-        <img src=<%=photopath%> />
+<head>
+    <title>freestore.se </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
+    <script src="js/ngapp.js"></script>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body ng-app="freestore">
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Freestore.se</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Hem</a>
+                    </li>
+                    <li><a href="/nysak">Ge bort en sak</a>
+                    </li>
+                    <li>
+                        <a href="/sak">Bläddra igenom alla saker</a>
+                    </li>
+                </ul>
+            </div>
+            <!--.nav-collapse -->
+        </div>
+    </nav>
+    
+      <br>
+    <br>
+                <div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12" ng-controller="NewThingController as newThingctrl">
+             <div class="panel panel-default">
+           
+                    <img src="{{newThingctrl.newThing.photopath}}" />
+   
+            
+          <div class="panel-heading">  <h1>{{newThingctrl.newThing.title}}</h1>
+                 </div>
+             <strong>Kategori: </strong>{{newThingctrl.newThing.category}}
         <br>
-        <%=category %>
+                 <strong>Beskrivning: </strong>
+       {{newThingctrl.newThing.description}}
             <br>
-            <%=description %>
-                <br>
-                <%=contact.telephone %>
+                 <strong>Kontakta givare:</strong>
+                 <strong>Telefon:</strong>
+           {{newThingctrl.newThing.contact.telephone}}
                     <br>
-                    <%=contact.email %>
+    <strong>Epost: </strong>            {{newThingctrl.newThing.contact.email}}
+                    <br>
+                <strong>Annonsen inlagd: </strong>{{newThingctrl.newThing.time  | date:'MM/dd/yyyy @h:mma'}}
                         <br>
-                        <%=time %>
+                        {{newThingctrl.newThing.location}}
                             <br>
-                            <%=location %>
-                                <br><a href="/sak">titta på alla saker</a>
-                                <br>
-                                <input type="submit" value="spara">
-                                <br><a href="/forhandsgranskaEdit">Ändra något</a>
-                                <br><a href="/nysak">Rensa formulär</a>
-                                <br><a href="/sok">Startsidan</a>
-    </form>
-</div>
+            <br>
+                  
+            <input class="btn btn-success btn-xs" type="submit" value="spara" ng-click="Save()">
+            <a href="/forhandsgranskaEdit" class="btn btn-primary btn-xs">Ändra något</a>
+            <a href="/nysak" class="btn btn-danger btn-xs">Rensa formulär</a>
+         
+    
+                    </div></div>
+               
+
+</body>
+
+</html>

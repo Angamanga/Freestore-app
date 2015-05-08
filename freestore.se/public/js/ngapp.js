@@ -1,5 +1,6 @@
 var app = angular.module('freestore', []);
 
+
 app.controller('mainController', function ($scope) {
     $scope.search = {
         searchText: ''
@@ -12,55 +13,44 @@ app.controller('mainController', function ($scope) {
     };
 });
 
-app.controller('ShowLatestItemsController', function ($scope) {
-    $scope.header = "10 senaste tillagda sakerna";
-    $scope.things = [{
-            "_id": "553f577a896a613b187144ef",
-            "title": "Nytt flode",
-            "category": "clothes",
-            "description": "dsgsdg",
-            "contact": {
-                "telephone": "0708421257",
-                "email": "anna.iosif@me.com"
-            },
-            "time": 1430214519586,
-            "location": "uppsala",
-            "photopath": "http://res.cloudinary.com/angamanga/image/upload/v1430214519/qplti6axlayqq70au3xu.png",
-            "_locals": {}
-                }, {
-            "_id": "55469624ad0b9fe6156f3f8c",
-            "title": "afsasfg",
-            "category": "clothes",
-            "description": "adgags                ",
-            "contact": {
-                "telephone": "0708421258",
-                "email": "angamanga@gmail.com"
-            },
-            "time": 1430689310721,
-            "location": "uppsala",
-            "photopath": "http://res.cloudinary.com/angamanga/image/upload/v1430689310/pujk85a28vpiacav4puv.jpg",
-            "_locals": {}
-                },
+app.controller('ShowLatestItemsController', ['$http', function ($http) {
+        var collection = this;
+        collection.things = [];
+        console.log(collection.things);
+        $http.get('/latest').success(function (data) {
+          
+            collection.things = data;
 
-        {
-            "_id": "55473b3f00cbcdf026641269",
-            "title": "test innan angular",
-            "category": "clothes",
-            "description": "asgfasg            ",
-            "contact": {
-                "telephone": "0708421257",
-                "email": "angamanga@gmail.com"
-            },
-            "time": 1430731577868,
-            "location": "uppsala",
-            "photopath": "http://res.cloudinary.com/angamanga/image/upload/v1430731577/ybgfahqatk3vuiv0m2w6.png",
-            "_locals": {}
-                }];
+        })
+        console.log(collection.things);
+}]);
 
-});
+app.controller('NewThingController', ['$scope','$http', function ($scope,$http) {
+    $scope.THIS=this;    
+     $scope.THIS.newThing={};
+       
+        console.log( $scope.THIS.newThing);
+        $http.get('/newthing').success(function (data) {
+            console.log('data:'+data);
+             $scope.THIS.newThing = data;
+        })
+        console.log('newThing'+ $scope.THIS.newThing);
+
+    $scope.Save = function(){
+          var posting =  $http({
+              method:'post',
+              url:'/spara',
+              data:$scope.THIS.newThing,
+              processData:false})
+        posting.success(function(response){
+            console.log(response);
+            $scope.response.data = response;
+        });
+    
+    
+    console.log('postar:' +  $scope.THIS.newThing);
+    }
 
 
-app.controller('newThingController', function ($scope) {
-    //TODO to be implemented
-
-})
+}]);
+    

@@ -7,13 +7,14 @@ var express = require('express'),
     mongodb = require('mongodb'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    sessions = require('client-sessions');
+    sessions = require('client-sessions'),
+    bodyParser = require('body-parser');
 
 //express
 var app = express();
 app.use(express.static('public'));
 app.set('views', __dirname + '/app/views');
-
+app.use(bodyParser.json());
 
 
 //startar databas
