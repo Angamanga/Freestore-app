@@ -1,6 +1,23 @@
-var app = angular.module('freestore', []);
+var app = angular.module('freestore', ['ui.router']);
 
-
+app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider)
+           {
+               $urlRouterProvider.otherwise('/');
+               
+    console.log('inside config');
+    $stateProvider
+    .state('home',{
+        url:'/',
+        templateUrl:'/../views/front.html',
+        controller: 'mainController'
+    })
+    .state('new',{
+        url:'/nysak',
+        templateUrl:'/../views/newThing.html',
+        controller:'NewThingController'
+    })
+}]);
+           
 app.controller('mainController', function ($scope) {
     $scope.search = {
         searchText: ''
@@ -11,6 +28,17 @@ app.controller('mainController', function ($scope) {
         text: '',
         created_at: ''
     };
+});
+
+app.controller('ThingController',function($scope,$location,$http){
+    console.log('inside Thingcontroller');
+    $scope.thing=this;
+    $scope.thing.requested={};
+    $scope.id = $location.absUrl().split('/')[4];
+    $http.get('/sakid/'+$scope.id).success(function(data){
+    $scope.thing.requested=data;
+    console.log($scope.thing.requested);
+    });
 });
 
 app.controller('ShowLatestItemsController', ['$http', function ($http) {
@@ -25,7 +53,7 @@ app.controller('ShowLatestItemsController', ['$http', function ($http) {
         console.log(collection.things);
 }]);
 
-app.controller('NewThingController', ['$scope','$http', function ($scope,$http) {
+app.controller('NewThingController', ['$scope','$http','$route', function ($scope,$http,$route) {
     $scope.THIS=this;    
      $scope.THIS.newThing={};
        
@@ -47,10 +75,8 @@ app.controller('NewThingController', ['$scope','$http', function ($scope,$http) 
             $scope.response.data = response;
         });
     
-    
     console.log('postar:' +  $scope.THIS.newThing);
     }
-
 
 }]);
     

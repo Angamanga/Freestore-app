@@ -38,12 +38,24 @@ module.exports = function (app, db) {
 
     //visar en sak
     app.get('/sak/:thing_id', function (req, res) {
+           res.render('thing');});
+    
+    app.get('/sakid/:thing_id',function(req,res){
         var thingID = ObjectID.createFromHexString(req.params.thing_id);
+        console.log(thingID);
         db.collection('things').findOne({
             _id: thingID
         }, function (err, result) {
-            res.render('thing', result);
-        });
+            console.log('Resultatet ar:' +result);
+           
+            res.json(result);
+           
+      
+        })
+    });
+        
+        app.get('/sak/',function(req,res){
+            res.render('thing');
     });
 
 

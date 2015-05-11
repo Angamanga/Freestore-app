@@ -1,31 +1,20 @@
  var cloudinary = require('cloudinary'),
+     cloudinaryConfig = require('../../config/cloudinary'),
      bodyParser = require('body-parser'),
      fileParser = require('connect-multiparty')();
-
- //konfigurerar cloudinary //configure cloudinary
- var cloudinaryCredentials = {
-     cloud_name: 'angamanga',
-     api_key: '579224836286857',
-     api_secret: '2a4eJXgPdjHSYtI1DRkvGIFq2c8'
- };
-
- cloudinary.config({
-     cloud_name: cloudinaryCredentials.cloud_name,
-     api_key: cloudinaryCredentials.api_key,
-     api_secret: cloudinaryCredentials.api_secret
- });
 
  module.exports = function (app, db) {
 
      //definierar objekt för ny sak
      var newThing;
 
-     app.get('/nysak', function (req, res) {
-            res.render('newThing'); 
-         
+  app.get('/nysak', function (req, res) {
+ res.render('newThing');
      });
 
      function saveInfo(req, res) {
+         cloudinary.config(cloudinaryConfig.cloudinaryCredentials);
+         
          cloudinary.uploader.upload(req.files.image.path, function (result) {
              if (result.url) {
                  newThing = {
