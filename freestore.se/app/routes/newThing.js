@@ -16,7 +16,14 @@
      function saveInfo(req, res) {
          cloudinary.config(cloudinaryConfig.cloudinaryCredentials);
          
-         cloudinary.uploader.upload(req.files.image.path, function (result) {
+         console.log(req.body.title);
+         console.log(req.body.category);
+         console.log(req.body.telephone);
+         console.log(req.body.email);
+         console.log(req.files.file.path);
+      
+       
+         cloudinary.uploader.upload(req.files.file.path, function (result) {
              if (result.url) {
                  newThing = {
                      title: req.body.title,
@@ -30,7 +37,8 @@
                      location: req.body.location,
                      photopath: result.url
                  }
-                 res.redirect('/#/forhandsgranska');
+                 console.log(newThing);
+               res.send(newThing);
              } else {
                  console.log('error uploading to cloudinary: ', result);
                  res.send('did not get url');

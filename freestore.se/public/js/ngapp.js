@@ -1,4 +1,4 @@
-var app = angular.module('freestore', ['ui.router']);
+var app = angular.module('freestore', ['ui.router','ngFileUpload']);
 
 app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider)
            {
@@ -10,6 +10,11 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
         url:'/',
         templateUrl:'/../views/front.html',
         controller: 'mainController'
+    })
+    .state('new',{
+        url:'/new',
+        templateUrl:'/../views/new.html',
+        controller:'NewThingController'
     })
     .state('preview',{
         url:'/forhandsgranska',
@@ -57,8 +62,62 @@ app.controller('ShowLatestItemsController', ['$http', function ($http) {
         })
         console.log(collection.things);
 }]);
+//directive for input file
 
+app.directive('fileModel',['$parse',function($parse){
+    return{
+        restrict:'A',
+        link:function(scope,element,attrs){
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            element.bind('change',function(){
+                scope.$apply(function(){
+                    modelSetter(scope,element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+//service to override default behaviour 
+app.service('fileUpload',['$http',function($http){
+       this.uploadFileAndFieldsToUrl = function(file, fields,uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        for(var i = 0; i < fields.length; i++){
+        fd.append(fields[i].name, fields[i].data)
+        }
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(){
+        })
+        .error(function(){
+        });
+       };
+}]);
+app.controller('NewThingController',['$scope', 'fileUpload','$location',function($scope,fileUpload,$location){
+     
+     $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' + JSON.stringify(file));
+        var uploadUrl = "/nysak";
+        var fields = [{"name":"title","data":$scope.title},
+                      {"name":"category","data":$scope.category},
+                      {"name":"telephone","data":$scope.telephone},
+                      {"name":"email","data":$scope.email},
+                      {"name":"description","data":$scope.description}
+                     ];
+        fileUpload.uploadFileAndFieldsToUrl(file, fields, uploadUrl);
+        
+         $location.path('/forhandsgranska');
+    //TODO: Las in newThingfilen som skickas fran servern. Hur anvanda den for forhandsgranskning? 
+    //Anvanda samma controller? Gora en separat http.get? Maste serva ut objektet pa ngt vis....
+     };
+}]);   
 
+               
+               
 //Controller för sak-sida
 app.controller('ThingController',function($scope,$location,$http){
     console.log('inside Thingcontroller');
@@ -91,16 +150,11 @@ app.controller('ThingController',function($scope,$location,$http){
 app.controller('PreviewController',['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
     console.log('inside preview');
     $scope.THIS=this;    
-    $scope.THIS.newThing={ title: 'Brunnslock',
-       category: 'clothes',
-       description: 'asdfasf                            ',
-       contact: { telephone: '0', email: 'angamanga@gmail.com'},
-       time: Date.now,
-       photopath: 'http://res.cloudinary.com/angamanga/image/upload/v1431431401/fi6zrclhwzr5fc1ihsjp.jpg'};
-//    $http.get('/newthing').success(function (data) {
-//     $scope.THIS.newThing = data;
-//    })
-//    
+    $scope.THIS.newThing={};
+    $http.get('/newthing').success(function (data) {
+     $scope.THIS.newThing = data;
+    })
+    
     $scope.Save = function(){
         console.log('inside save'); 
         var posting =  $http({

@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "cloudinary_ng": "~0.1.2"
+    "cloudinary_ng": "~0.1.2",
+    "ng-file-upload": "~4.2.0"
   }
 }
