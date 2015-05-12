@@ -11,13 +11,28 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
         templateUrl:'/../views/front.html',
         controller: 'mainController'
     })
-    .state('new',{
-        url:'/nysak',
-        templateUrl:'/../views/newThing.html',
-        controller:'NewThingController'
+    .state('preview',{
+        url:'/forhandsgranska',
+        templateUrl:'/../views/preview.html',
+        controller:'PreviewController',
+        controllerAs:'prevctrl'
     })
+//    .state('previewEdit',{
+//        url:'/forhandsgranskaEdit',
+//        templateUrl:'/../views/previewEdit.html',
+//        controller:'PreviewController',
+//        controllerAs:'prevctrl'
+//    })
+.state('thing',{
+        url:'/sak/:id',
+        templateUrl:'/../views/thing.html',
+        controller:'ThingController',
+        controllerAs:'thingctrl'
+    })
+//    .state('edit',{})
+
 }]);
-           
+//Förstasidan           
 app.controller('mainController', function ($scope) {
     $scope.search = {
         searchText: ''
@@ -30,53 +45,75 @@ app.controller('mainController', function ($scope) {
     };
 });
 
-app.controller('ThingController',function($scope,$location,$http){
-    console.log('inside Thingcontroller');
-    $scope.thing=this;
-    $scope.thing.requested={};
-    $scope.id = $location.absUrl().split('/')[4];
-    $http.get('/sakid/'+$scope.id).success(function(data){
-    $scope.thing.requested=data;
-    console.log($scope.thing.requested);
-    });
-});
-
+//Controller för latest items (förstasidan)
 app.controller('ShowLatestItemsController', ['$http', function ($http) {
         var collection = this;
         collection.things = [];
         console.log(collection.things);
         $http.get('/latest').success(function (data) {
-          
+          console.log(data);
             collection.things = data;
 
         })
         console.log(collection.things);
 }]);
 
-app.controller('NewThingController', ['$scope','$http','$route', function ($scope,$http,$route) {
-    $scope.THIS=this;    
-     $scope.THIS.newThing={};
-       
-        console.log( $scope.THIS.newThing);
-        $http.get('/newthing').success(function (data) {
-            console.log('data:'+data);
-             $scope.THIS.newThing = data;
-        })
-        console.log('newThing'+ $scope.THIS.newThing);
 
+//Controller för sak-sida
+app.controller('ThingController',function($scope,$location,$http){
+    console.log('inside Thingcontroller');
+    $scope.thing=this;
+    $scope.thing.requested={};
+    $scope.id = $location.absUrl().split('/')[5];
+    console.log($scope.id);
+    $http.get('/sak/'+$scope.id).success(function(data){
+    $scope.thing.requested=data;
+    console.log($scope.thing.requested);
+    });
+    
+    $scope.delete = function(event){
+        
+        console.log(event);
+        console.log($scope.thing.requested._id);
+        event.preventDefault();
+        if(confirm('Är du säker på att du vill ta bort din annons?')){
+            
+            $http.delete('/sak/' + $scope.thing.requested._id ).success(function(response){
+                $location.path('/');
+        })
+                    
+    }
+};
+});
+
+
+//Controller for Preview
+app.controller('PreviewController',['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
+    console.log('inside preview');
+    $scope.THIS=this;    
+    $scope.THIS.newThing={ title: 'Brunnslock',
+       category: 'clothes',
+       description: 'asdfasf                            ',
+       contact: { telephone: '0', email: 'angamanga@gmail.com'},
+       time: Date.now,
+       photopath: 'http://res.cloudinary.com/angamanga/image/upload/v1431431401/fi6zrclhwzr5fc1ihsjp.jpg'};
+//    $http.get('/newthing').success(function (data) {
+//     $scope.THIS.newThing = data;
+//    })
+//    
     $scope.Save = function(){
-          var posting =  $http({
+        console.log('inside save'); 
+        var posting =  $http({
               method:'post',
               url:'/spara',
               data:$scope.THIS.newThing,
               processData:false})
         posting.success(function(response){
-            console.log(response);
-            $scope.response.data = response;
+            console.log('RESPONSE'+response);
+           $location.path('/sak/'+response);
+           // $scope.$apply();
         });
-    
-    console.log('postar:' +  $scope.THIS.newThing);
-    }
+       }
 
 }]);
     

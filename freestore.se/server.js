@@ -14,6 +14,8 @@ var express = require('express'),
 var app = express();
 app.use(express.static('public'));
 app.set('views', __dirname + '/app/views');
+//view engine = ejs 
+app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
 
@@ -30,8 +32,6 @@ MongoClient.connect(database.url, function (err, db) {
     }
 });
 
-//view engine = ejs 
-app.set('view engine', 'ejs');
 
 //startar servern
 app.listen(8080);

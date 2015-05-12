@@ -4,14 +4,14 @@ var BSON = require('mongodb').BSONPure,
 module.exports = function (app, db) {
 
     app.get('/', function (req, res) {
-        res.render('index');
+        res.render('../../public/views/index');
     });
     app.get('/test', function (req, res) {
         res.render('imgtest');
     });
     //visar alla saker
     app.get('/sak', function (req, res) {
-        db.collection('things').find().toArray(function (err, result) {
+        db.collection('things').find().sort({time:-1}).toArray(function (err, result) {
             if (err) {
                 res.send(err);
             } else {
@@ -37,10 +37,10 @@ module.exports = function (app, db) {
 
 
     //visar en sak
-    app.get('/sak/:thing_id', function (req, res) {
-           res.render('thing');});
+    //app.get('/sak/:thing_id', function (req, res) {
+      //     res.render('thing');});
     
-    app.get('/sakid/:thing_id',function(req,res){
+    app.get('/sak/:thing_id',function(req,res){
         var thingID = ObjectID.createFromHexString(req.params.thing_id);
         console.log(thingID);
         db.collection('things').findOne({
@@ -48,18 +48,12 @@ module.exports = function (app, db) {
         }, function (err, result) {
             console.log('Resultatet ar:' +result);
            
-            res.json(result);
+            res.send(result);
            
       
         })
     });
         
-        app.get('/sak/',function(req,res){
-            res.render('thing');
-    });
-
-
-
 
 
 }

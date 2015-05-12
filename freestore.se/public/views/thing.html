@@ -1,0 +1,32 @@
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+           
+                    <img src="{{thingctrl.requested.photopath}}" />
+   
+            
+          <div class="panel-heading">  <h1>{{thingctrl.requested.title}}</h1>
+                 </div>
+             <strong>Kategori: </strong>{{thingctrl.requested.category}}
+        <br>
+                 <strong>Beskrivning: </strong>
+       {{thingctrl.requested.description}}
+            <br>
+                 <strong>Kontakta givare:</strong>
+                 <strong>Telefon:</strong>
+           {{thingctrl.requested.contact.telephone}}
+                    <br>
+    <strong>Epost: </strong>            {{thingctrl.requested.contact.email}}
+                    <br>
+                <strong>Annonsen inlagd: </strong>{{thingctrl.requested.time  | date:'MM/dd/yyyy @h:mma'}}
+                        <br>
+                        {{thingctrl.requested.location}}
+                            <br>
+            <br>
+                  
+           
+            <a href="/Edit" class="btn btn-primary btn-xs">Ändra något</a>
+            <a href="/tabort" class="btn btn-danger btn-xs" ng-click="delete($event)">Ta bort annons</a>
+         
+    
+                    </div></div>
+            

@@ -2,12 +2,11 @@
 <html>
 
 <head>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
     <script src="js/ngapp.js"></script>
-    <title>freestore.se </title>
+    <title> freestore.se </title>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
@@ -24,24 +23,22 @@
                 </button>
                 <a class="navbar-brand" href="#">Freestore.se</a>
             </div>
-
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Hem</a>
+                    <li>
+                        <a href="/">Hem</a>
                     </li>
-                    <li><a href="/nysak">Ge bort en sak</a>
+                    <li>
+                        <a href="/nysak">Ge bort en sak</a>
                     </li>
                     <li>
                         <a href="/sak">Bläddra igenom alla saker</a>
                     </li>
                 </ul>
             </div>
-            <!--.nav-collapse -->
         </div>
     </nav>
-
-    <div ui-view>
-    </div>
-
+    <div ui-view></div>
 </body>
+
 </html>
