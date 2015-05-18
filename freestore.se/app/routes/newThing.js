@@ -9,9 +9,9 @@
      //definierar objekt för ny sak
      var newThing;
 
-  app.get('/nysak', function (req, res) {
-    res.render('newThing');
-     });
+//  app.get('/nysak', function (req, res) {
+//    res.render('newThing');
+//     });
 
      function saveInfo(req, res) {
          cloudinary.config(cloudinaryConfig.cloudinaryCredentials);
@@ -37,7 +37,7 @@
                      location: req.body.location,
                      photopath: result.url
                  }
-                 console.log(newThing);
+            console.log(newThing);
                res.send(newThing);
              } else {
                  console.log('error uploading to cloudinary: ', result);
@@ -51,9 +51,9 @@
          saveInfo(req, res)
      });
 
-     app.get('/forhandsgranska', function (req, res) {
-         res.render('preview');
-         });
+//     app.get('/forhandsgranska', function (req, res) {
+//         res.render('preview');
+//         });
      
      app.get('/newthing', function(req,res){
          console.log(newThing);

@@ -127,3 +127,13 @@ input {
 img {
     
 }
+
+.box {
+    position: relative;
+    background-color: azure;
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin: 4px;
+    cursor: pointer;
+}

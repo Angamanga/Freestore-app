@@ -1,10 +1,9 @@
-var app = angular.module('freestore', ['ui.router','ngFileUpload']);
+var app = angular.module('freestore', ['ui.router','ngCookies']);
 
-app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider)
-           {
-               $urlRouterProvider.otherwise('/');
-               
-    console.log('inside config');
+app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider){ 
+    
+    $urlRouterProvider.otherwise('/');
+     
     $stateProvider
     .state('home',{
         url:'/',
@@ -14,7 +13,8 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
     .state('new',{
         url:'/new',
         templateUrl:'/../views/new.html',
-        controller:'NewThingController'
+        controller:'NewThingController',
+        controllerAs:'new'
     })
     .state('preview',{
         url:'/forhandsgranska',
@@ -34,7 +34,10 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
         controller:'ThingController',
         controllerAs:'thingctrl'
     })
-//    .state('edit',{})
+ .state('edit',{
+    url:'/../views/edit.html',
+    controller:'ThingController',
+    controllerAs:'thingctrl'})
 
 }]);
 //Förstasidan           
@@ -62,8 +65,8 @@ app.controller('ShowLatestItemsController', ['$http', function ($http) {
         })
         console.log(collection.things);
 }]);
-//directive for input file
 
+//directive for input file
 app.directive('fileModel',['$parse',function($parse){
     return{
         restrict:'A',
@@ -78,11 +81,13 @@ app.directive('fileModel',['$parse',function($parse){
         }
     };
 }]);
+
 //service to override default behaviour 
-app.service('fileUpload',['$http',function($http){
+app.service('fileUpload',['$http','$cookieStore','$location',function($http,$cookieStore,$location){
        this.uploadFileAndFieldsToUrl = function(file, fields,uploadUrl){
         var fd = new FormData();
         fd.append('file', file);
+          
         for(var i = 0; i < fields.length; i++){
         fd.append(fields[i].name, fields[i].data)
         }
@@ -90,36 +95,56 @@ app.service('fileUpload',['$http',function($http){
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
-        .success(function(){
+        .success(function(data){
+          $cookieStore.put('newThing',data);
+            var co = $cookieStore.get('newThing');
+            console.log(co.title);
+              $location.path('/forhandsgranska');
         })
         .error(function(){
         });
        };
 }]);
-app.controller('NewThingController',['$scope', 'fileUpload','$location',function($scope,fileUpload,$location){
-     
-     $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' + JSON.stringify(file));
-        var uploadUrl = "/nysak";
-        var fields = [{"name":"title","data":$scope.title},
-                      {"name":"category","data":$scope.category},
-                      {"name":"telephone","data":$scope.telephone},
-                      {"name":"email","data":$scope.email},
-                      {"name":"description","data":$scope.description}
-                     ];
-        fileUpload.uploadFileAndFieldsToUrl(file, fields, uploadUrl);
-        
-         $location.path('/forhandsgranska');
-    //TODO: Las in newThingfilen som skickas fran servern. Hur anvanda den for forhandsgranskning? 
-    //Anvanda samma controller? Gora en separat http.get? Maste serva ut objektet pa ngt vis....
-     };
-}]);   
 
-               
-               
+app.service('newThingService',function(){
+    var newThing = this;
+});
+              
+app.controller('NewThingController',['$scope', 'fileUpload','$location', 'newThingService',function($scope,fileUpload,$location, newThingService){
+    var thumbUrl,imgUrl,testimg; 
+    
+    $scope.cloud = function(){
+        cloudinary.openUploadWidget({cloud_name:'angamanga',
+         upload_preset: 'errmgao1', multiple:false, theme:'minimal'},
+         function(error, result){
+            thumbUrl = result[0].thumbnail_url;
+            imgUrl = result[0].url;
+            testimg = document.querySelector('#thumbnailimg');
+            testimg.src = thumbUrl; 
+         }
+                                    ) }
+    
+       $scope.uploadFile = function(){
+           var nw = this;
+           var uploadUrl = "/nysak";
+           nw.newThing = {title:$scope.title,
+                         category:$scope.category,
+                         contact:{
+                             telephone:$scope.telephone,
+                             email:$scope.email},
+                           description:$scope.description,
+                           photopath:imgUrl,
+                           thumbnailpath:thumbUrl
+                          };
+           console.log(uploadUrl);
+           console.log(nw.newThing);
+           $location.path('/forhandsgranska');
+       }
+        
+}]);   
+           
 //Controller för sak-sida
-app.controller('ThingController',function($scope,$location,$http){
+app.controller('ThingController',function($scope,$location,$http,$cookieStore){
     console.log('inside Thingcontroller');
     $scope.thing=this;
     $scope.thing.requested={};
@@ -127,7 +152,8 @@ app.controller('ThingController',function($scope,$location,$http){
     console.log($scope.id);
     $http.get('/sak/'+$scope.id).success(function(data){
     $scope.thing.requested=data;
-    console.log($scope.thing.requested);
+        $cookieStore.put('thing',data);
+        
     });
     
     $scope.delete = function(event){
@@ -147,13 +173,19 @@ app.controller('ThingController',function($scope,$location,$http){
 
 
 //Controller for Preview
-app.controller('PreviewController',['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
+app.controller('PreviewController',['$scope','$http','$location','$rootScope','$cookieStore', 'newThingService', function ($scope,$http,$location,$rootScope,$cookieStore, newThingService) {
     console.log('inside preview');
-    $scope.THIS=this;    
-    $scope.THIS.newThing={};
-    $http.get('/newthing').success(function (data) {
-     $scope.THIS.newThing = data;
-    })
+    var pw = this;
+    console.log(pw.newThing);
+// $scope.THIS=this;    
+//    $scope.THIS.newThing={};
+//////    $http.get('/newthing').success(function (data) {
+////     $scope.THIS.newThing = data;
+////    
+//    $scope.THIS.newThing = $cookieStore.get('newThing');
+//    console.log('cookie:'+JSON.stringify($scope.THIS.newThing));
+//
+////})
     
     $scope.Save = function(){
         console.log('inside save'); 
