@@ -54,6 +54,20 @@ module.exports = function (app, db) {
         })
     });
         
-
-
-}
+    app.post('/search',function(req,res){
+        var searchText = req.body.searchText;
+        console.log(searchText);
+        var searchObject = {
+        $or: [ {title: searchText },{description:searchText}]
+        }
+                       
+        db.collection('things').find(searchObject).sort({time:-1}).toArray(function (err, result) {
+            if (err) {
+                res.sent(err);
+            } else {
+                console.log(result);
+                res.json(result);
+            }
+        })
+    });
+             };

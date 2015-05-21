@@ -1,0 +1,27 @@
+<br>
+<br>
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <img src="{{prevauthctrl.newThing.photopath}}" />
+        <div class="panel-heading">
+            <h1>{{prevauthctrl.newThing.title}}</h1>
+        </div>
+        <strong>Kategori: </strong>{{prevauthctrl.newThing.category}}
+        <br>
+        <strong>Beskrivning: </strong> {{prevauthctrl.newThing.description}}
+        <br>
+        <strong>Kontakta givare:</strong>
+        <strong>Telefon:</strong> {{prevauthctrl.newThing.contact.telephone}}
+        <br>
+        <strong>Epost: </strong> {{prevauthctrl.newThing.contact.email}}
+        <br>
+        <strong>Annonsen inlagd:</strong>{{prevauthctrl.newThing.time | date:'MM/dd/yyyy @h:mma'}}
+        <br> {{prevauthctrl.newThing.location}}
+        <br>
+        <br>
+        <input class="btn btn-success btn-xs" type="submit" value="spara" ng-click="Save()">
+        <a href="/#/previewEdit" class="btn btn-primary btn-xs">Ändra något</a>
+        <a href="/nysak" class="btn btn-danger btn-xs">Rensa formulär</a>
+
+    </div>
+</div>

@@ -4,18 +4,18 @@
             <h2 class="panel-title">Sök efter en sak</h2>
         </div>
         <div class="panel-body">
-            <form action="/search" method="post">
-                <input type="text" ng-model="search.searchText ">
-                <input type="submit" class="btn btn-xs" value="Sök efter {{search.searchText}} ">
+            <form>
+                <input type="text" ng-model="collection.searchText ">
+                <input type="submit" ng-click="search()" class="btn btn-xs" value="Sök efter {{collection.searchText}} ">
             </form>
         </div>
     </div>
 </div>
 
-<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12" ng-controller="ShowLatestItemsController as collection ">
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2>Senast tillagda sakerna:</h2>
+            <h2>{{resultHeading}}</h2>
         </div>
         <div class="panel-body">
             <div class="panel panel-default" ng-repeat="thing in collection.things">

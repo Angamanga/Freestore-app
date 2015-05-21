@@ -22,10 +22,10 @@
                         {{thingctrl.requested.location}}
                             <br>
             <br>
-                
+                  
            
-            <a href="/#/login/{{id}}" class="btn btn-info btn-xs">Logga in för att ändra eller ta bort din annons</a>
-           
+            <a href="/#/edit/{{thingctrl.requested._id}}" class="btn btn-primary btn-xs" ng-click="edit()">Ändra något</a>
+            <a href="/tabort" class="btn btn-danger btn-xs" ng-click="delete($event)">Ta bort annons</a>
          
     
                     </div></div>

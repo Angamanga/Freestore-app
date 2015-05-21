@@ -60,9 +60,6 @@
          res.json(newThing);
      });
 
-//     app.get('/forhandsgranskaEdit', function (req, res) {
-//         res.render('newThingEdit', newThing);
-//     });
      
      app.post('/forhandsgranskaEdit', fileParser, function (req, res) {
          saveInfo(req, res);
@@ -89,4 +86,20 @@
                         res.send(doc);                
          })
  });
+     app.put('/sak/:thing_id',function(req,res){
+ 
+         var thing_id = ObjectID.createFromHexString(req.params.thing_id);
+     console.log(req.body);
+         console.log(thing_id);
+         db.collection('things').update({_id:thing_id},
+                                        {
+             $set: req.body
+         
+         }
+                                                    
+                                ,function(err,doc){
+                        res.send(thing_id);                
+         })});
+                                        
+
  }

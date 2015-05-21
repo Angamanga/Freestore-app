@@ -1,0 +1,69 @@
+<h1>Hej! Jag ar Edit.html</h1>
+<div class="col-lg-offset-3 col-lg-6">
+        <div class="well bs-component">
+            <form class="form-horizontal" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>Ändra på din sak</legend>
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-lg-2 control-label">Titel</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="inputText" placeholder="Titel" name="title" ng-model="thing.requested.title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCategory" class="col-lg-2 control-label">Kategori</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" id="category" name="category" ng-model="thing.requested.category">
+                                <option value="clothes">Kläder</option>
+                                <option value="kids">Barn</option>
+                                <option value="home">För hemmet</option>
+                                <option value="cars">Fordon</option>
+                                <option value="electronics">Hemelektronik</option>
+                                <option value="outdoor">Sport och fritid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputContact" class="col-lg-2 control-label">Kontakt</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTelephone" class="col-lg-2 control-label">Telefon:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" id="inputText" type="text" name="telephone" ng-model="thing.requested.contact.telephone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Epost:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" id="inputText" type="email" name="email" ng-model="thing.requested.contact.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-lg-2 control-label">Beskrivning:</label>
+                        <div class="col-lg-8">
+                            <textarea class="form-control" rows="5" name='description' ng-model="thing.requested.description" ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-lg-2 control-label"> Välj foto:</label>
+                                    <div>
+                        <a href="#" ng-click="cloud()" class="btn btn-default">Ändra bild</a> 
+                        </div>
+                        <div>
+                             <img src="{{thing.requested.thumbnailpath}}" id="thumbnailimg">
+                                                            
+
+                    </div>
+                    
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-lg-2 control-label"> </label>
+                        <div class="col-lg-8">
+                            <input type="submit" value="Förhandsgranska" ng-click="sendToPreview()">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <br>

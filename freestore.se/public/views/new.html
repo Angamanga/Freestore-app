@@ -1,5 +1,7 @@
 <br>
 <br>
+<div class="col-lg-offset-3 col-lg-6">
+        <div class="well bs-component">
  <form class="form-horizontal" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Lägg till ny sak</legend>
@@ -49,9 +51,10 @@
                                   <div>
                         <a href="#" ng-click="cloud()" class="btn btn-default">Ladda upp bild</a> 
                        <img src="{{new.thumbUrl}}" id="thumbnailimg">
-                                                            
+                                        <button class="btn btn-success" ng-click="uploadFile()">Förhandsgranska</button>
+                                        
 
                     </div>
                     
 
- <button ng-click="uploadFile()">Förhandsgranska</button>
+              
