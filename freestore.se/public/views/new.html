@@ -1,60 +1,57 @@
 <br>
 <br>
 <div class="col-lg-offset-3 col-lg-6">
-        <div class="well bs-component">
- <form class="form-horizontal" enctype="multipart/form-data">
-                <fieldset>
-                    <legend>Lägg till ny sak</legend>
-                    <div class="form-group">
-                        <label for="inputTitle" class="col-lg-2 control-label">Titel</label>
-                        <div class="col-lg-8">
-                            <input type="text" class="form-control" id="inputText" placeholder="Titel" name="title" ng-model="title">
-                        </div>
+    <div class="well bs-component">
+        <form class="form-horizontal" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Lägg till ny sak</legend>
+                <div class="form-group">
+                    <label for="inputTitle" class="col-lg-2 control-label">Titel</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputText" placeholder="Titel" name="title" ng-model="new.title">
                     </div>
-                     <div class="form-group">
-                        <label for="inputCategory" class="col-lg-2 control-label">Kategori</label>
-                        <div class="col-lg-8">
-                            <select class="form-control" id="select" name="category" ng-model="category">
-                                <option value="clothes">Kläder</option>
-                                <option value="kids">Barn</option>
-                                <option value="home">För hemmet</option>
-                                <option value="cars">Fordon</option>
-                                <option value="electronics">Hemelektronik</option>
-                                <option value="outdoor">Sport och fritid</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputCategory" class="col-lg-2 control-label">Kategori</label>
+                    <div class="col-lg-8">
+                        <select class="form-control" id="select" name="category" ng-model="new.category">
+                            <option value="clothes">Kläder</option>
+                            <option value="kids">Barn</option>
+                            <option value="home">För hemmet</option>
+                            <option value="cars">Fordon</option>
+                            <option value="electronics">Hemelektronik</option>
+                            <option value="outdoor">Sport och fritid</option>
+                        </select>
                     </div>
-                       <div class="form-group">
-                        <label for="inputContact" class="col-lg-2 control-label">Kontakt</label>
+                </div>
+                <div class="form-group">
+                    <label for="inputContact" class="col-lg-2 control-label">Kontakt</label>
+                </div>
+                <div class="form-group">
+                    <label for="inputTelephone" class="col-lg-2 control-label">Telefon:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputText" type="text" name="telephone" ng-model="new.contact.telephone">
                     </div>
-                    <div class="form-group">
-                        <label for="inputTelephone" class="col-lg-2 control-label">Telefon:</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" id="inputText" type="text" name="telephone" ng-model="telephone">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Epost:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputText" type="email" name="email" ng-model="new.contact.email">
                     </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Epost:</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" id="inputText" type="email" name="email" ng-model="email">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputDescription" class="col-lg-2 control-label">Beskrivning:</label>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" rows="5" name='description' ng-model="new.description">
+                        </textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="inputDescription" class="col-lg-2 control-label">Beskrivning:</label>
-                        <div class="col-lg-8">
-                            <textarea class="form-control" rows="5" name='description' ng-model="description">
-                            </textarea>
-                        </div>
-                    </div>
+                </div>
 
-                   
-                                  <div>
-                        <a href="#" ng-click="cloud()" class="btn btn-default">Ladda upp bild</a> 
-                       <img src="{{new.thumbUrl}}" id="thumbnailimg">
-                                        <button class="btn btn-success" ng-click="uploadFile()">Förhandsgranska</button>
-                                        
 
-                    </div>
-                    
+                <div>
+                    <a href="#" ng-click="cloud()" class="btn btn-default">Ladda upp bild</a>
+                    <img src="{{new.thumbUrl}}" id="thumbnailimg">
+                    <button class="btn btn-success" ng-click="uploadFile()">Förhandsgranska</button>
 
-              
+
+                </div>

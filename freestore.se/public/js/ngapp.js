@@ -1,60 +1,67 @@
 var app = angular.module('freestore', ['ui.router', 'ngCookies']);
+
 //configs
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
+    //startsida
         .state('home', {
             url: '/',
             templateUrl: '/../views/front.html',
             controller: 'mainController',
             controllerAs: 'collection'
         })
+        //registrera en ny sak
         .state('new', {
             url: '/new',
             templateUrl: '/../views/new.html',
             controller: 'NewThingController',
             controllerAs: 'new'
         })
+        //forhandsgranska den nya saken (forsta gangen)
         .state('preview', {
             url: '/forhandsgranska',
             templateUrl: '/../views/preview.html',
             controller: 'PreviewController',
             controllerAs: 'prevctrl'
         })
+        //editera ny sak efter forhandsgranskning
         .state('previewEdit', {
             url: '/previewEdit',
             templateUrl: '/../views/previewEdit.html',
             controller: 'PrevEditController',
             controllerAs: 'prevedit'
         })
-        .state('thing', {
-            url: '/sak/:id',
-            templateUrl: '/../views/thing.html',
-            controller: 'ThingController',
-            controllerAs: 'thingctrl'
-        })
+        //editera en sak som redan finns
         .state('edit', {
             url: '/edit/:id',
             templateUrl: '/../views/edit.html',
             controller: 'EditController',
             controllerAs: 'editctrl'
         })
+        //forhandsgranska andringar pa en sak som redan finns
+        .state('previewAuthEdit', {
+            url: '/previewAuthEdit/:id',
+            templateUrl: '/../views/previewAuth.html',
+            controller: 'prevAuthController',
+            controllerAs: 'prevauthctrl'
+        })
+        //sida for en sparad sak
+        .state('thing', {
+            url: '/sak/:id',
+            templateUrl: '/../views/thing.html',
+            controller: 'ThingController',
+            controllerAs: 'thingctrl'
+        })
+        //loginsida
         .state('login', {
             url: '/login/:id',
             templateUrl: '/../views/thingauth.html',
             controller: 'ThingController',
             controllerAs: 'thingctrl'
         })
-    .state('previewAuthEdit',{
-        url:'/previewAuthEdit/:id',
-        templateUrl:'/../views/previewAuth.html',
-        controller:'prevAuthController',
-        controllerAs:'prevauthctrl'
-        
-    })
-
 }]);
 
 //factories
@@ -71,26 +78,46 @@ app.factory('newThingfactory', function () {
         photopath: '',
         thumbnailpath: '',
         time: '',
-        location:''
-    };     
-    console.log(newThing);
-return newThing;
-    
+        location: ''
+    };
+    return newThing;
+
 });
 
+app.factory('newThingservice',['newThingfactory','$location',function(newThingfactory,$location){
+
+console.log('inside newTHingservice');
+    
+    var setNewThing = function(prefix,thumbUrl,imgUrl,nextPath){
+     newThingfactory.title = prefix.title;
+    newThingfactory.category = prefix.category;
+     newThingfactory.contact.telephone = prefix.contact.telephone;
+     newThingfactory.contact.email = prefix.contact.email;
+     newThingfactory.description = prefix.description;
+     newThingfactory.photopath = imgUrl
+     newThingfactory.thumbnailpath = thumbUrl;
+     newThingfactory.time = Date.now();
+     newThingfactory.location = prefix.location;
+     $location.path(nextPath);
+    
+    }
+return setNewThing;
 
 
-
+}]);
 
 //Förstasidan           
 app.controller('mainController', ['$scope', '$http', function ($scope, $http) {
+    console.log('inside maincontroller');
+
     $scope.resultHeading = 'Senast tillagda sakerna';
     $scope.collection = this;
     $scope.collection.things = [];
+    $scope.collection.searchText = $scope.searchText;
+
     $http.get('/latest').success(function (data) {
         $scope.collection.things = data;
     })
-    $scope.collection.searchText = $scope.searchText;
 
     $scope.search = function () {
         console.log('inside search');
@@ -110,11 +137,13 @@ app.controller('mainController', ['$scope', '$http', function ($scope, $http) {
   }]);
 
 
-app.controller('NewThingController', ['$scope', '$location', 'newThingfactory', function ($scope, $location, newThingfactory) {
-    var thumbUrl, imgUrl, testimg;
+app.controller('NewThingController', ['$scope', '$location', 'newThingfactory', 'newThingservice',function ($scope, $location, newThingfactory, newThingservice) {
+    console.log('inside NewThingController');
 
+    var thumbUrl, imgUrl, testimg;
+    $scope.newThing = this;
     $scope.cloud = function () {
-        console.log('inside NewThingController');
+        console.log('inside cloud');
         cloudinary.openUploadWidget({
                 cloud_name: 'angamanga',
                 upload_preset: 'errmgao1',
@@ -129,37 +158,22 @@ app.controller('NewThingController', ['$scope', '$location', 'newThingfactory', 
             }
         )
     }
-    console.log(newThingfactory);
-   
-    $scope.uploadFile = function () {
-        console.log('inside send to preview');
-        console.log($scope.title);
-        console.log(newThingfactory);
-        newThingfactory.title = $scope.title;
-        newThingfactory.category = $scope.category;
-        newThingfactory.contact.telephone = $scope.telephone;
-        newThingfactory.contact.email = $scope.email;
-        newThingfactory.description = $scope.description;
-        newThingfactory.photopath =imgUrl;
-        newThingfactory.thumbnailpath = thumbUrl;
-        newThingfactory.time = Date.now();
-        console.log(newThingfactory);
+    
+    $scope.uploadFile = function(){newThingservice($scope.newThing,thumbUrl,imgUrl,'/forhandsgranska');
+                                  };
 
-        $location.path('/forhandsgranska');
-    }
-  
 
 }]);
 
 //Controller for Preview
 app.controller('PreviewController', ['$scope', '$http', '$location', '$rootScope', 'newThingfactory', function ($scope, $http, $location, $rootScope, newThingfactory) {
-    console.log('inside preview');
+    console.log('inside PreviewController');
     $scope.preview = this;
     $scope.preview.newThing = newThingfactory;
-    console.log($scope.preview.newThing);
-   
+ 
+
     $scope.Save = function () {
-        console.log('inside save');
+        console.log('inside Save');
         var posting = $http({
             method: 'post',
             url: '/spara',
@@ -174,12 +188,11 @@ app.controller('PreviewController', ['$scope', '$http', '$location', '$rootScope
 
 
 //TODO, fixa edit
-app.controller('PrevEditController', ['$scope', 'newThingfactory', '$location', function ($scope, newThingfactory, $location) {
-    console.log('inside EditController');
+app.controller('PrevEditController',['$scope', 'newThingfactory', '$location','newThingservice', function ($scope, newThingfactory, $location, newThingservice) {
+    console.log('inside PrevEditController');
     $scope.thingToEdit = newThingfactory;
-    console.log($scope.thingToEdit.title);
     setSelectedIndex('category', $scope.thingToEdit.category);
-    
+
     $scope.cloud = function () {
         cloudinary.openUploadWidget({
                 cloud_name: 'angamanga',
@@ -196,11 +209,9 @@ app.controller('PrevEditController', ['$scope', 'newThingfactory', '$location', 
         )
     }
 
-
     function setSelectedIndex(listID, selectedValue) {
         console.log('inside setSelectedIndex');
         var category = document.getElementById(listID);
-        console.log(category);
         for (var i = 0; i < category.options.length; i++) {
             if (category.options[i].value === selectedValue) {
                 category.options[i].selected = true;
@@ -208,22 +219,8 @@ app.controller('PrevEditController', ['$scope', 'newThingfactory', '$location', 
             }
         }
     }
-   
 
-    $scope.sendToPreview = function () {
-        console.log('inside send to preview');
-        newThingfactory.title = $scope.thingToEdit.title;
-        newThingfactory.category = $scope.thingToEdit.category;
-        newThingfactory.contact.telephone = $scope.thingToEdit.contact.telephone;
-        newThingfactory.contact.email = $scope.thingToEdit.contact.email;
-        newThingfactory.description = $scope.thingToEdit.description;
-        newThingfactory.photopath = $scope.thingToEdit.photopath;
-        newThingfactory.thumbnailpath = $scope.thingToEdit.thumbnailpath;
-        newThingfactory.time = Date.now();
-        console.log(newThingfactory);
-
-        $location.path('/forhandsgranska');
-    }
+    $scope.sendToPreview = function () {newThingservice($scope.thingToEdit,$scope.thingToEdit.thumbnailpath,$scope.thingToEdit.photopath,'/forhandsgranska')};
 
 }]);
 
@@ -234,44 +231,37 @@ app.controller('ThingController', function ($scope, $location, $http) {
     $scope.thing = this;
     $scope.thing.requested = {};
     $scope.id = $location.absUrl().split('/')[5];
-    console.log($scope.id);
     $http.get('/sak/' + $scope.id).success(function (data) {
         $scope.thing.requested = data;
     });
 
     $scope.delete = function (event) {
-
-        console.log(event);
-        console.log($scope.thing.requested._id);
+        console.log('inside delete');
         event.preventDefault();
         if (confirm('Är du säker på att du vill ta bort din annons?')) {
-
             $http.delete('/sak/' + $scope.thing.requested._id).success(function (response) {
                 $location.path('/');
             })
-
         }
     };
-    
-    $scope.edit = function(){
-        $location.path('/#/edit/'+$scope.thing.requested._id);
-    }
-    
 
+    $scope.edit = function () {
+        console.log('inside edit');
+        $location.path('/#/edit/' + $scope.thing.requested._id);
+    }
 });
 
-app.controller('EditController',['$scope','$location','$http','newThingfactory',function($scope,$location,$http,newThingfactory){
-    
+app.controller('EditController', ['$scope', '$location', '$http', 'newThingfactory','newThingservice', function ($scope, $location, $http, newThingfactory, newThingservice) {
     console.log('inside Editcontroller');
     $scope.thing = this;
     $scope.thing.requested = {};
     $scope.id = $location.absUrl().split('/')[5];
-    console.log($scope.id);
     $http.get('/sak/' + $scope.id).success(function (data) {
         $scope.thing.requested = data;
     });
-    
-     $scope.cloud = function () {
+
+    $scope.cloud = function () {
+        console.log('inside cloud');
         cloudinary.openUploadWidget({
                 cloud_name: 'angamanga',
                 upload_preset: 'errmgao1',
@@ -286,37 +276,17 @@ app.controller('EditController',['$scope','$location','$http','newThingfactory',
             }
         )
     }
-     
-     
-    $scope.sendToPreview = function () {
-        console.log('inside send to preview');
-        newThingfactory.title = $scope.thing.requested.title;
-        newThingfactory.category = $scope.thing.requested.category;
-        newThingfactory.contact.telephone = $scope.thing.requested.contact.telephone;
-        newThingfactory.contact.email = $scope.thing.requested.contact.email;
-        newThingfactory.description = $scope.thing.requested.description;
-        newThingfactory.photopath = $scope.thing.requested.photopath;
-        newThingfactory.thumbnailpath = $scope.thing.requested.thumbnailpath;
-        newThingfactory.time = Date.now();
-     
-        $location.path('/previewAuthEdit/'+$scope.thing.requested._id);
-    }
-
-
-
+    $scope.sendToPreview = function () {newThingservice($scope.thing.requested,$scope.thing.requested.thumbnailpath,$scope.thing.requested.photopath,'/previewAuthEdit/' + $scope.thing.requested._id)};
 
 }]);
 
-app.controller('prevAuthController',['$scope','$http','$location','newThingfactory',function($scope,$http,$location,newThingfactory){
- 
-     console.log('inside prevAuthController');
+app.controller('prevAuthController', ['$scope', '$http', '$location', 'newThingfactory', function ($scope, $http, $location, newThingfactory) {
+
+    console.log('inside prevAuthController');
     $scope.preview = this;
     $scope.preview.newThing = newThingfactory;
-    console.log(newThingfactory);
-    console.log($scope.preview.newThing);
     $scope.preview.id = $location.absUrl().split('/')[5];
-    console.log($scope.preview.id);
-    
+
     $scope.Save = function () {
         console.log('inside save');
         var posting = $http({
@@ -330,4 +300,3 @@ app.controller('prevAuthController',['$scope','$http','$location','newThingfacto
         });
     }
 }]);
-
