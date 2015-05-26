@@ -1,0 +1,45 @@
+<br>
+<br>
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+
+        <img ng-src="{{thing.photopath}}" />
+        <div class="panel-heading">
+            <h1>{{thing.title}}</h1>
+            <p>Publicerad: {{thing.time | date:'MM/dd/yyyy @h:mma'}}
+            </p>
+
+        </div>
+
+        <p class="uppercase">
+            Kategori:<a href="#/{{thing.category}}">{{thing.category}}</a>
+        </p>
+        <p class="uppercase">
+            Plats: <a href="#/{{thing.location}}"> {{thing.location}}</a>
+
+        </p>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">Beskrivning</h4> {{thing.description}}
+            </li>
+
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">Kontakta annonsör</h4>
+                <h5>Namn:</h5> {{thing.firstName}} {{thing.lastName}}
+
+                <div ng-show="thing.telephone">
+                    <h5>Telefon:</h5> {{thing.telephone}}
+                    <br>
+                </div>
+                <h5>Epost:</h5> {{thing.email}}
+            </li>
+        </ul>
+
+        <div class="panel-footer">
+
+            <input class="btn btn-success btn-xs" type="submit" value="spara" ng-click="save()" ng-hide="login">
+            <a href="/#/previewEdit/{{id}}" class="btn btn-primary btn-xs" ng-hide="login">Ändra något</a>
+            <a href="/#/login" class="btn btn-primary btn-xs" ng-show="login">{{login}}</a>
+            <a href="/#/new" class="btn btn-danger btn-xs" ng-hide="login">Rensa formulär</a>
+        </div>

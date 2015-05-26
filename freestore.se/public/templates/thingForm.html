@@ -1,0 +1,87 @@
+<br>
+<br>
+<div class="col-lg-offset-3 col-lg-6">
+    <div class="well bs-component">
+        <form class="form-horizontal" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Lägg till ny sak</legend>
+                <div class="form-group">
+                    <label for="inputTitle" class="col-lg-2 control-label">Titel</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputTitle" ng-model="thing.title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label form="select" class="col-lg-2 control-label">Kategori</label>
+                    <div class="col-lg-8">
+                        <select class="form-control" id="selectCategory" ng-model="thing.category">
+                            <option value="clothes">Kläder</option>
+                            <option value="kids">Barn</option>
+                            <option value="home">För hemmet</option>
+                            <option value="cars">Fordon</option>
+                            <option value="electronics">Hemelektronik</option>
+                            <option value="outdoor">Sport och fritid</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label form="select" class="col-lg-2 control-label">Plats</label>
+                    <div class="col-lg-8">
+                        <select class="form-control" id="selectLocation" ng-model="thing.location">
+                            <option value="malmo">Malmö</option>
+                            <option value="uppsala">Uppsala</option>
+                            <option value="stockholm">Stockholm</option>
+                            <option value="umea">Umeå</option>
+                            <option value="kalmar">Kalmar</option>
+                            <option value="goteborg">Göteborg</option>
+                            <option value="ostersund">Östersund</option>
+                            <option value="kiruna">Kiruna</option>
+                            <option value="falun">Falun</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputFirstName" class="col-lg-2 control-label">Förnamn</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputFirstName" type="text" ng-model="thing.firstName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLastName" class="col-lg-2 control-label">Efternamn</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputLastName" type="text" ng-model="thing.lastName">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="inputTelephone" class="col-lg-2 control-label">Telefon</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputTelephone" type="text" ng-model="thing.telephone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Epost</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputEmail" type="email" ng-model="thing.email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputDescription" class="col-lg-2 control-label">Beskrivning</label>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputDescription" rows="5" ng-model="thing.description">
+                        </textarea>
+                    </div>
+                </div>
+
+                <a href="#" ng-click="cloudinary()" class="btn btn-default">Ladda upp bild</a>
+                <img src="{{thing.thumbUrl}}" id="thumbnailimg">
+                <button class="btn btn-success" ng-click="preview()">Förhandsgranska</button>
+            </fieldset>
+        </form>
+
+    </div>
+</div>

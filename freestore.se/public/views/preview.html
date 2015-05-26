@@ -1,27 +1,2 @@
-<br>
-<br>
-<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
-    <div class="panel panel-default">
-        <img src="{{prevctrl.newThing.photopath}}" />
-        <div class="panel-heading">
-            <h1>{{prevctrl.newThing.title}}</h1>
-        </div>
-        <strong>Kategori: </strong>{{prevctrl.newThing.category}}
-        <br>
-        <strong>Beskrivning: </strong> {{prevctrl.newThing.description}}
-        <br>
-        <strong>Kontakta givare:</strong>
-        <strong>Telefon:</strong> {{prevctrl.newThing.contact.telephone}}
-        <br>
-        <strong>Epost: </strong> {{prevctrl.newThing.contact.email}}
-        <br>
-        <strong>Annonsen inlagd:</strong>{{prevctrl.newThing.time | date:'MM/dd/yyyy @h:mma'}}
-        <br> {{prevctrl.newThing.location}}
-        <br>
-        <br>
-        <input class="btn btn-success btn-xs" type="submit" value="spara" ng-click="Save()">
-        <a href="/#/previewEdit" class="btn btn-primary btn-xs">Ändra något</a>
-        <a href="/nysak" class="btn btn-danger btn-xs">Rensa formulär</a>
-
-    </div>
-</div>
+<ng-include src="'/templates/thingView.html'">
+</ng-include>

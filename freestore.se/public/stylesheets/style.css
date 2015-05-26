@@ -1,7 +1,7 @@
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    background-color: #058C42; 
+    background-color: #058C42;
 }
 
 a {
@@ -119,14 +119,11 @@ form .error {
     width: 0%;
 }
 
-
 input {
     margin-left: 1%;
 }
 
-img {
-    
-}
+img {}
 
 .box {
     position: relative;
@@ -136,4 +133,14 @@ img {
     float: left;
     margin: 4px;
     cursor: pointer;
+}
+
+form {
+    padding: 1em;
+}
+
+form {}
+
+.uppercase {
+    text-transform: uppercase;
 }
