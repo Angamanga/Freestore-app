@@ -1,3 +1,5 @@
+<br>
+<br>
 <div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
     <div class="search panel panel-success">
         <div class="panel-heading">
@@ -5,8 +7,8 @@
         </div>
         <div class="panel-body">
             <form>
-                <input type="text" ng-model="collection.searchText ">
-                <input type="submit" ng-click="search()" class="btn btn-xs" value="Sök efter {{collection.searchText}} ">
+                <input type="text" ng-model="searchText ">
+                <input type="submit" ng-click="search()" class="btn btn-xs" value="Sök efter {{searchText}} ">
             </form>
         </div>
     </div>
@@ -18,11 +20,13 @@
             <h2>{{resultHeading}}</h2>
         </div>
         <div class="panel-body">
-            <div class="panel panel-default" ng-repeat="thing in collection.things">
+            <h5 class="text-danger" ng-show="noResult">Inga resultat för {{searchText}} hittades</h5>
+            <div class="panel panel-default" ng-repeat="thing in collection">
                 <div class="panel-body">
-                    <a href="/#/sak/{{thing._id}}">
+
+                    <a href="/#/thing/{{thing._id}}">
                         <h3>{{thing.title}}</h3>
-                        <p>{{thing.time | date:'MM/dd/yyyy @h:mma'}}</p>
+                        <p>{{collection.things.time | date:'MM/dd/yyyy @h:mma'}}</p>
                         <img class="thumb " src="{{thing.photopath}} " />
                     </a>
                 </div>

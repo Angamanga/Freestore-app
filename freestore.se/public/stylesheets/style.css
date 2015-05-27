@@ -144,3 +144,6 @@ form {}
 .uppercase {
     text-transform: uppercase;
 }
+.negative {
+    background-color: indianred;
+}

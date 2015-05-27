@@ -38,8 +38,10 @@
 
         <div class="panel-footer">
 
-            <input class="btn btn-success btn-xs" type="submit" value="spara" ng-click="save()" ng-hide="login">
-            <a href="/#/previewEdit/{{id}}" class="btn btn-primary btn-xs" ng-hide="login">Ändra något</a>
+            <input class="btn btn-success btn-xs" type="submit" value="{{saveButtonText}}" ng-click="save()" ng-show="previewMode">
+
+            <a href="/#/edit/{{id}}" class="btn btn-primary btn-xs" ng-click="edit()" ng-hide="login">Ändra något</a>
             <a href="/#/login" class="btn btn-primary btn-xs" ng-show="login">{{login}}</a>
-            <a href="/#/new" class="btn btn-danger btn-xs" ng-hide="login">Rensa formulär</a>
+            <a href="/#/new" class="btn btn-danger btn-xs" ng-click="remove($event)" ng-hide="login">{{removeButtonText}}</a>
+
         </div>
