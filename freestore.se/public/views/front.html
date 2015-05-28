@@ -26,8 +26,8 @@
 
                     <a href="/#/thing/{{thing._id}}">
                         <h3>{{thing.title}}</h3>
-                        <p>{{collection.things.time | date:'MM/dd/yyyy @h:mma'}}</p>
-                        <img class="thumb " src="{{thing.photopath}} " />
+                        <p>{{thing.time | date:'MM/dd/yyyy @h:mma'}}</p>
+                        <img class="thumb " ng-src="{{thing.photopath}} " />
                     </a>
                 </div>
             </div>

@@ -75,26 +75,6 @@ app.factory('cloudinary', [function () {
         getImageUrls: getImageUrls
     }
             }]);
-app.factory('setSelectedIndex', [function () {
-
-    var setSelectedIndex = function (listID, selectedValue) {
-        console.log('inside setSelectedIndex');
-        console.log(listID);
-        var list = document.getElementById(listID);
-        console.log(list);
-        for (var i = 0; i < list.options.length; i++) {
-            if (list.options[i].value === selectedValue) {
-                list.options[i].selected = true;
-                break;
-            }
-        }
-    }
-    return {
-        setSelectedIndex: setSelectedIndex
-    }
-
-
-}]);
 
 //controllers
 
@@ -126,6 +106,8 @@ app.controller('HomeController', ['$scope', '$http', function ($scope, $http) {
             $scope.collection = response;
             if (response.length == 0) {
                 $scope.noResult = true;
+            } else {
+                $scope.noResult = false;
             }
             console.log(response.length);
 
@@ -167,15 +149,13 @@ app.controller('NewThingController', ['$scope', 'thingFactory', 'cloudinary', '$
     }
     }]);
 
-app.controller('PreviewEditController', ['$scope', 'thingFactory', 'cloudinary', '$location', 'setSelectedIndex', function ($scope, thingFactory, cloudinary, $location, setSelectedIndex) {
+app.controller('PreviewEditController', ['$scope', 'thingFactory', 'cloudinary', '$location', function ($scope, thingFactory, cloudinary, $location) {
     var thumbUrl, imgUrl;
+    console.log(document.getElementById('selectLocation'));
 
     $scope.formTitle = 'Lägg till en ny sak';
     $scope.imgButtonText = 'Välj en bild';
     $scope.thing = thingFactory.getThing();
-    //setSelectedIndex.setSelectedIndex('selectCategory', $scope.thing.category);
-    //setSelectedIndex.setSelectedIndex('selectLocation', $scope.thing.location);
-
 
     $scope.cloudinary = function () {
         cloudinary.sendToCloudinary();
@@ -199,7 +179,7 @@ app.controller('PreviewEditController', ['$scope', 'thingFactory', 'cloudinary',
         }
     }
 
-}]);
+            }]);
 
 //hanterar förhandsgranska ny sak och editera efter förhandsgranskning
 app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$location', function ($scope, thingFactory, $http, $location) {
@@ -231,7 +211,7 @@ app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$locati
 app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location', 'cloudinary', function ($scope, $http, thingFactory, $location, cloudinary) {
     console.log('inside Thingcontroller');
     var gettingThing, imgUrl, thumbUrl;
-
+    console.log(document.getElementById('selectLocation'));
     $scope.newImage = false;
     $scope.formTitle = 'Ändra i din annons';
     $scope.imgButtonText = 'Ändra bild';
@@ -322,5 +302,69 @@ app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory'
             });
         }
     }
+
+}]);
+
+app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) {
+    console.log('inside BrowseController');
+    $scope.result = [];
+    $scope.showResults = false;
+    $scope.thingResults = false;
+
+    var getThings = function (browse) {
+        var getThings = $http.get('/' + browse);
+        getThings.success(function (response) {
+            $scope.result = response;
+            console.log(response);
+        });
+        getThings.error(function (err) {});
+    }
+
+    $scope.geo = function () {
+        getThings('location');
+        $scope.browseWhat = 'location';
+        $scope.showResults = true;
+        $scope.thingResults = false;
+        $scope.browseHeading = 'Bläddra geografiskt';
+    }
+    $scope.category = function () {
+        getThings('category');
+        $scope.showResults = true;
+        $scope.thingResults = false;
+        $scope.browseWhat = 'category';
+        $scope.browseHeading = 'Bläddra bland kategorier';
+    };
+
+    $scope.all = function () {
+        $scope.showResults = false;
+        $scope.thingResults = true;
+        getThings('sak');
+
+    }
+
+    $scope.browseThings = function (searchFor) {
+        console.log('inside BrowseTHings');
+        $scope.showResults = false;
+        $scope.thingResults = true;
+        var searchData = {
+            searchFor: searchFor,
+            type: $scope.browseWhat
+        };
+        console.log(searchData);
+
+        var things = $http({
+            method: 'post',
+            url: '/browseSearch',
+            data: searchData
+        });
+        things.success(function (response) {
+            $scope.result = response;
+            console.log(response);
+        });
+        things.error(function (err) {
+            console.log(err)
+        });
+    };
+
 
 }]);

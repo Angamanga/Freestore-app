@@ -50,7 +50,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         .state('browse', {
             url: '/browse',
             templateUrl: '/../views/browse.html',
-            controller: 'BrowseController'
+            controller: 'BrowseController',
+            controllerAs: 'browsectrl'
         })
 
 

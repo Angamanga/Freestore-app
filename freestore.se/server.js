@@ -4,6 +4,7 @@ var express = require('express'),
     database = require('./config/database'),
     basic = require('./app/routes/basic'),
     newThing = require('./app/routes/newThing'),
+    browse = require('./app/routes/browse'),
     mongodb = require('mongodb'),
     mongoose = require('mongoose'),
     passport = require('passport'),
@@ -29,6 +30,7 @@ MongoClient.connect(database.url, function (err, db) {
         //laddar routes och skickar med databasen om anslutningen till databasen funkar
         basic(app, db);
         newThing(app, db);
+        browse(app, db);
     }
 });
 
