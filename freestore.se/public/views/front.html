@@ -1,6 +1,17 @@
 <br>
 <br>
 <div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="panel panel-success" ng-show="showSuccess">
+        <div class="panel-heading">
+            <button type="button" class="close" ng-click="showSuccess = false">×</button>
+            <h3 class=" panel-title ">Grattis!</h3>
+        </div>
+        <div class="panel-body ">
+            {{successMessage}}
+        </div>
+
+    </div>
+
     <div class="search panel panel-success">
         <div class="panel-heading">
             <h2 class="panel-title">Sök efter en sak</h2>

@@ -18,20 +18,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
         .state('preview', {
             url: '/preview/',
-            templateUrl: '/../views/preview.html',
+            templateUrl: '/../views/thingView.html',
             controller: 'PreviewController',
             controllerAs: 'previewctrl'
 
         })
         .state('changePreview', {
             url: '/preview/:id',
-            templateUrl: '/../views/preview.html',
+            templateUrl: '/../views/thingView.html',
             controller: 'ChangePreviewController',
             controllerAs: 'thingctrl'
         })
         .state('thing', {
             url: '/thing/:thingId',
-            templateUrl: '/../views/preview.html',
+            templateUrl: '/../views/thingView.html',
             controller: 'ThingController',
             controllerAs: 'thingctrl'
         })

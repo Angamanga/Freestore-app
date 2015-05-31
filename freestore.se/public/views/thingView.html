@@ -1,0 +1,74 @@
+<br>
+<br>
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="panel panel-success" ng-show="showSuccess">
+        <div class="panel-heading">
+            <button type="button" class="close" ng-click="showSuccess = false">×</button>
+            <h3 class=" panel-title ">Grattis!</h3>
+        </div>
+        <div class="panel-body ">
+            {{successMessage}}
+        </div>
+
+    </div>
+
+    <div class="panel panel-danger " ng-show="showFailure">
+        <div class="panel-heading ">
+            <button type="button " class="close " ng-click="showFailure = false">×</button>
+            <h3 class="panel-title "> Åh nej!</h3>
+        </div>
+        <div class="panel-body ">
+            {{failureMessage}}
+        </div>
+    </div>
+
+
+
+    <div class="panel panel-default ">
+
+        <img ng-src="{{thing.photopath}} " />
+        <div class="panel-heading ">
+            <h1>{{thing.title}}</h1>
+            <p>Publicerad: {{thing.time | date:'MM/dd/yyyy @h:mma'}}
+            </p>
+
+        </div>
+
+        <p class="uppercase ">
+            Kategori:<a href="#/browse " ng-click=" ">{{thing.category}}</a>
+        </p>
+        <p class="uppercase ">
+            Plats: <a href="#/{{thing.location}} "> {{thing.location}}</a>
+
+        </p>
+
+        <ul class="list-group ">
+            <li class="list-group-item ">
+                <h4 class="list-group-item-heading ">Beskrivning</h4> {{thing.description}}
+            </li>
+
+            <li class="list-group-item ">
+                <h4 class="list-group-item-heading ">Kontakta annonsör</h4>
+                <h5>Namn:</h5> {{thing.firstName}} {{thing.lastName}}
+
+                <div ng-show="thing.telephone ">
+                    <h5>Telefon:</h5> {{thing.telephone}}
+                    <br>
+                </div>
+                <h5>Epost:</h5> {{thing.email}}
+            </li>
+        </ul>
+
+
+
+        <div class="panel-footer ">
+
+            <input class="btn btn-success btn-xs " type="submit " value="{{saveButtonText}} " ng-click="save() " ng-show="previewMode ">
+
+            <a href="/#/edit/{{id}} " class="btn btn-primary btn-xs " ng-click="edit() " ng-hide="login ">Ändra något</a>
+            <a href="/#/login " class="btn btn-primary btn-xs " ng-show="login ">{{login}}</a>
+            <a href="/#/new " class="btn btn-danger btn-xs " ng-click="remove($event) " ng-hide="login ">{{removeButtonText}}</a>
+
+        </div>
+
+    </div>

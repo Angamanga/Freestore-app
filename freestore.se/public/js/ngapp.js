@@ -76,11 +76,42 @@ app.factory('cloudinary', [function () {
     }
             }]);
 
+app.factory('messageBox', function () {
+    var success, successMessage, failure, setSuccess, setFailure, getSuccess, getSuccessMessage, getFailure;
+    success = false;
+    failure = false;
+    setSuccess = function (input, message) {
+        success = input;
+        successMessage = message;
+    }
+    getSuccess = function () {
+        return success;
+    }
+    getSuccessMessage = function () {
+        return successMessage;
+    }
+    setFailure = function (input) {
+        failure = input;
+    }
+    getFailure = function () {
+        return failure;
+    }
+
+    return {
+        setSuccess: setSuccess,
+        getSuccess: getSuccess,
+        getSuccessMessage: getSuccessMessage,
+        setFailure: setFailure,
+        getFailure: getFailure
+    }
+});
 //controllers
 
 //Hanterar forstasidan
-app.controller('HomeController', ['$scope', '$http', function ($scope, $http) {
+app.controller('HomeController', ['$scope', '$http', 'messageBox', function ($scope, $http, messageBox) {
     var gettingLatest;
+    $scope.showSuccess = messageBox.getSuccess();
+    $scope.successMessage = messageBox.getSuccessMessage();
     $scope.resultHeading = 'Senast tillagda sakerna';
     $scope.collection = [];
     gettingLatest = $http.get('/latest');
@@ -182,15 +213,15 @@ app.controller('PreviewEditController', ['$scope', 'thingFactory', 'cloudinary',
             }]);
 
 //hanterar förhandsgranska ny sak och editera efter förhandsgranskning
-app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$location', function ($scope, thingFactory, $http, $location) {
+app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$location', 'messageBox', function ($scope, thingFactory, $http, $location, messageBox) {
     console.log('insidePreviewController');
     $scope.previewMode = true;
     $scope.saveButtonText = 'Spara';
     $scope.removeButtonText = 'Rensa';
-
     $scope.thing = thingFactory.getThing();
 
     $scope.save = function () {
+
         var savingData = $http({
             method: 'post',
             url: '/spara',
@@ -198,27 +229,34 @@ app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$locati
         });
 
         savingData.success(function (response) {
+            messageBox.setSuccess(true, 'Din sak sparades!');
+
             $location.path('/thing/' + response);
         });
         savingData.error(function (err) {
-            console.log(err);
+            messageBox.setFailure(true);
+            $scope.failureMessage = 'Något gick fel och din sak kunde inte sparas';
         });
 
     }
 }]);
 
 //hanterar visning av sak samt ändring av befintlig sak(ska den det?);
-app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location', 'cloudinary', function ($scope, $http, thingFactory, $location, cloudinary) {
+app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location', 'cloudinary', 'messageBox', function ($scope, $http, thingFactory, $location, cloudinary, messageBox) {
     console.log('inside Thingcontroller');
     var gettingThing, imgUrl, thumbUrl;
-    console.log(document.getElementById('selectLocation'));
+
+    $scope.showSuccess = messageBox.getSuccess();
     $scope.newImage = false;
     $scope.formTitle = 'Ändra i din annons';
     $scope.imgButtonText = 'Ändra bild';
     $scope.preview = false;
     $scope.removeButtonText = 'Ta bort annons'
     $scope.id = $location.path().split('/')[2];
+    $scope.successMessage = messageBox.getSuccessMessage();
+    console.log($scope.successMessage);
 
+    console.log($scope.showSuccess);
     gettingThing = $http.get('/sak/' + $scope.id);
     gettingThing.success(function (data) {
         $scope.thing = data
@@ -257,7 +295,7 @@ app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location
         if (confirm('Är du säker på att du vill ta bort din annons?')) {
             var deleting = $http.delete('/sak/' + $scope.id);
             deleting.success(function (response) {
-                console.log('annonsen är borttagen');
+                messageBox.setSuccess(true, 'Din sak togs bort');
                 $location.path('/');
             });
             deleting.error(function (err) {
@@ -268,7 +306,7 @@ app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location
     }
             }]);
 
-app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory', '$http', function ($scope, $location, thingFactory, $http) {
+app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory', '$http', 'messageBox', function ($scope, $location, thingFactory, $http, messageBox) {
     $scope.previewMode = true;
     $scope.saveButtonText = 'Spara dina ändringar';
     $scope.removeButtonText = 'Ta bort annons';
@@ -281,6 +319,7 @@ app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory'
             data: $scope.thing
         });
         changing.success(function (response) {
+            messageBox.setSuccess(true, 'Dina ändringar sparades');
             $location.path('/thing/' + response);
         });
         changing.error(function (err) {
@@ -294,7 +333,7 @@ app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory'
         if (confirm('Är du säker på att du vill ta bort din annons?')) {
             var deleting = $http.delete('/sak/' + $scope.id);
             deleting.success(function (response) {
-                console.log('annonsen är borttagen');
+                messageBox.setSuccess(true, 'Din sak togs bort');
                 $location.path('/');
             });
             deleting.error(function (err) {
