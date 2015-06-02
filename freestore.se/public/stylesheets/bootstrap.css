@@ -2002,6 +2002,7 @@ pre code {
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 20px;
 }
 
 .row {
@@ -2059,8 +2060,8 @@ pre code {
 .col-lg-12 {
     position: relative;
     min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .col-xs-1,
@@ -3619,7 +3620,7 @@ select[multiple].form-group-lg .form-control {
 
 @media (min-width: 768px) {
     .form-horizontal .control-label {
-        text-align: right;
+        text-align: left;
         margin-bottom: 0;
         padding-top: 13px;
     }
@@ -6798,6 +6799,7 @@ a.list-group-item-danger.active:focus {
     min-height: 20px;
     padding: 19px;
     margin-bottom: 20px;
+    margin-top: 5em;
     background-color: #f8f5f0;
     border: 1px solid transparent;
     border-radius: 4px;
@@ -8025,4 +8027,11 @@ input:focus,
 .panel-default .panel-title,
 .panel-default .panel-footer {
     color: #98978b;
+}
+
+.container-full {
+    margin: 0 auto;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
 }

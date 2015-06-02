@@ -6,7 +6,7 @@ module.exports = function (app, db) {
     app.get('/', function (req, res) {
         res.render('../../public/views/index');
     });
-    
+
     //visar alla saker
 
     //visar de tre senast tillagda sakerna
@@ -56,7 +56,10 @@ module.exports = function (app, db) {
                     $options: 'igm'
                 }
             }, {
-                description: searchText
+                description: {
+                    $regex: searchText,
+                    $options: 'igm'
+                }
             }]
         }
 
@@ -71,6 +74,6 @@ module.exports = function (app, db) {
             }
         })
     });
-    
-  
+
+
 };

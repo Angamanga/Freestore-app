@@ -77,6 +77,7 @@ app.factory('cloudinary', [function () {
             }]);
 
 app.factory('messageBox', function () {
+
     var success, successMessage, failure, setSuccess, setFailure, getSuccess, getSuccessMessage, getFailure;
     success = false;
     failure = false;
@@ -122,6 +123,11 @@ app.controller('HomeController', ['$scope', '$http', 'messageBox', function ($sc
     gettingLatest.error(function (err) {
         console.log(err);
     });
+
+    $scope.resetSuccess = function () {
+        messageBox.setSuccess(false);
+        $scope.showSuccess = false;
+    }
 
     $scope.search = function () {
         console.log('inside search');
@@ -182,8 +188,6 @@ app.controller('NewThingController', ['$scope', 'thingFactory', 'cloudinary', '$
 
 app.controller('PreviewEditController', ['$scope', 'thingFactory', 'cloudinary', '$location', function ($scope, thingFactory, cloudinary, $location) {
     var thumbUrl, imgUrl;
-    console.log(document.getElementById('selectLocation'));
-
     $scope.formTitle = 'Lägg till en ny sak';
     $scope.imgButtonText = 'Välj en bild';
     $scope.thing = thingFactory.getThing();
@@ -239,6 +243,13 @@ app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$locati
         });
 
     }
+
+    $scope.resetFailure = function () {
+        $scope.showFailure = false;
+        messageBox.setFailure(false)
+
+    };
+
 }]);
 
 //hanterar visning av sak samt ändring av befintlig sak(ska den det?);
@@ -254,14 +265,17 @@ app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location
     $scope.removeButtonText = 'Ta bort annons'
     $scope.id = $location.path().split('/')[2];
     $scope.successMessage = messageBox.getSuccessMessage();
-    console.log($scope.successMessage);
 
-    console.log($scope.showSuccess);
     gettingThing = $http.get('/sak/' + $scope.id);
     gettingThing.success(function (data) {
         $scope.thing = data
         thingFactory.setThing($scope.thing, $scope.thing.photopath, $scope.thing.thumbnailpath);
     });
+
+    $scope.resetSuccess = function () {
+        messageBox.setSuccess(false)
+        $scope.showSuccess = false;
+    };
 
     gettingThing.error(function (err) {
         console.log(err);
@@ -304,6 +318,8 @@ app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location
 
         }
     }
+
+
             }]);
 
 app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory', '$http', 'messageBox', function ($scope, $location, thingFactory, $http, messageBox) {

@@ -12,7 +12,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
         .state('new', {
             url: '/new',
-            templateUrl: '/../views/new.html',
+            templateUrl: '/../views/thingForm.html',
             controller: 'NewThingController',
             controllerAs: 'thingformctrl'
         })
@@ -37,13 +37,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
         .state('previewEdit', {
             url: '/edit/',
-            templateUrl: '/../views/new.html',
+            templateUrl: '/../views/thingForm.html',
             controller: 'PreviewEditController',
             controllerAs: 'editctrl'
         })
         .state('thingEdit', {
             url: '/edit/:id',
-            templateUrl: '/../views/new.html',
+            templateUrl: '/../views/thingForm.html',
             controller: 'ThingController',
             controllerAs: 'editctrl'
         })
