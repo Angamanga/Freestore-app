@@ -1,0 +1,42 @@
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12" id="pagecontainer">
+    <div class="search panel panel-success">
+        <div class="panel-heading">
+            <h2 class="panel-title">Bläddra bland saker</h2>
+        </div>
+        <div class="list-group">
+            <a href="" class="list-group-item" ng-click="geo()">Visa saker geografiskt
+                </a>
+            <a href="" class="list-group-item" ng-click="category()">Visa kategorier
+  </a>
+            <a href="" class="list-group-item" ng-click="all()">Visa alla saker
+  </a>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-show="showResults">
+        <div class="panel-heading">{{browseHeading}}</div>
+        <div class="list-group" ng-repeat="thing in result">
+            <a href="" class="list-group-item" ng-click="browseThings(thing._id)">
+                <span class="badge">{{thing.count}}</span>{{thing._id}}
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="panel panel-default" ng-show="thingResults">
+        <div class="panel-heading">
+            <h2>Annonser i {{browseHeading}}</h2>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default" ng-repeat="thing in result">
+
+                <div class="panel-body">
+                    <a href="/#/thing/{{thing._id}}">
+                        <h3>{{thing.title}}</h3>
+                        <p>{{thing.time | date:'MM/dd/yyyy @h:mma'}}</p>
+                        <img class="thumb" ng-src="{{thing.photopath}}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

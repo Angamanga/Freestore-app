@@ -7,8 +7,6 @@ module.exports = function (app, db) {
         res.render('../../public/views/index');
     });
 
-    //visar alla saker
-
     //visar de tre senast tillagda sakerna
     app.get('/latest', function (req, res) {
         db.collection('things').find().sort({
@@ -23,32 +21,18 @@ module.exports = function (app, db) {
         })
     });
 
-
-
     //visar en sak
-    //app.get('/sak/:thing_id', function (req, res) {
-    //     res.render('thing');});
-
     app.get('/sak/:thing_id', function (req, res) {
         var thingID = ObjectID.createFromHexString(req.params.thing_id);
-        console.log(thingID);
         db.collection('things').findOne({
             _id: thingID
         }, function (err, result) {
-            console.log('Resultatet ar:' + result);
-
             res.send(result);
-
-
         })
     });
 
     app.post('/search', function (req, res) {
         var searchText = req.body.searchText;
-        console.log(searchText);
-
-
-
         var searchObject = {
             $or: [{
                 title: {
@@ -69,7 +53,6 @@ module.exports = function (app, db) {
             if (err) {
                 res.sent(err);
             } else {
-                console.log(result);
                 res.json(result);
             }
         })

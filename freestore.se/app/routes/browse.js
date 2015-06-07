@@ -1,7 +1,5 @@
  var bodyParser = require('body-parser');
  module.exports = function (app, db) {
-
-
      app.get('/sak', function (req, res) {
          db.collection('things').find().sort({
              time: -1
@@ -9,7 +7,6 @@
              if (err) {
                  res.send(err);
              } else {
-                 console.log(result);
                  res.json(result);
              }
          });
@@ -28,7 +25,6 @@
                  res.send(err);
              } else {
                  res.send(result);
-                 console.log(result);
              }
          })
      });
@@ -46,7 +42,6 @@
                  res.send(err);
              } else {
                  res.send(result);
-                 console.log(result);
              }
          });
      });
@@ -64,7 +59,6 @@
                  res.send(err);
              } else {
                  res.send(result);
-                 console.log(result);
              }
          });
      });
@@ -79,7 +73,6 @@
              if (err) {
                  res.send(err);
              } else {
-                 console.log(result);
                  res.json(result);
              }
          })

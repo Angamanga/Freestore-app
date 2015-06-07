@@ -118,7 +118,7 @@ app.controller('HomeController', ['$scope', '$http', 'messageBox', function ($sc
     gettingLatest = $http.get('/latest');
     gettingLatest.success(function (response) {
         $scope.collection = response;
-        console.log($scope.collection);
+
     });
     gettingLatest.error(function (err) {
         console.log(err);
@@ -130,7 +130,6 @@ app.controller('HomeController', ['$scope', '$http', 'messageBox', function ($sc
     }
 
     $scope.search = function () {
-        console.log('inside search');
         $scope.resultHeading = 'Sökresultat';
         var searching = $http({
             method: 'post',
@@ -146,9 +145,6 @@ app.controller('HomeController', ['$scope', '$http', 'messageBox', function ($sc
             } else {
                 $scope.noResult = false;
             }
-            console.log(response.length);
-
-
 
         });
         searching.error(function (err) {
@@ -176,7 +172,6 @@ app.controller('NewThingController', ['$scope', 'thingFactory', 'cloudinary', '$
         if (isValid) {
             imgUrl = cloudinary.getImageUrls().imgUrl;
             thumbUrl = cloudinary.getImageUrls().thumbUrl;
-            console.log($scope.thing);
             thingFactory.setThing($scope.thing, imgUrl, thumbUrl);
             $location.path('/preview/');
         } else {
@@ -254,7 +249,6 @@ app.controller('PreviewController', ['$scope', 'thingFactory', '$http', '$locati
 
 //hanterar visning av sak samt ändring av befintlig sak(ska den det?);
 app.controller('ThingController', ['$scope', '$http', 'thingFactory', '$location', 'cloudinary', 'messageBox', function ($scope, $http, thingFactory, $location, cloudinary, messageBox) {
-    console.log('inside Thingcontroller');
     var gettingThing, imgUrl, thumbUrl;
 
     $scope.showSuccess = messageBox.getSuccess();
@@ -361,7 +355,6 @@ app.controller('ChangePreviewController', ['$scope', '$location', 'thingFactory'
 }]);
 
 app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) {
-    console.log('inside BrowseController');
     $scope.result = [];
     $scope.showResults = false;
     $scope.thingResults = false;
@@ -370,7 +363,6 @@ app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) 
         var getThings = $http.get('/' + browse);
         getThings.success(function (response) {
             $scope.result = response;
-            console.log(response);
         });
         getThings.error(function (err) {});
     }
@@ -391,6 +383,7 @@ app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) 
     };
 
     $scope.all = function () {
+        $scope.browseHeading = 'alla';
         $scope.showResults = false;
         $scope.thingResults = true;
         getThings('sak');
@@ -398,15 +391,13 @@ app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) 
     }
 
     $scope.browseThings = function (searchFor) {
-        console.log('inside BrowseTHings');
+        $scope.browseHeading = searchFor;
         $scope.showResults = false;
         $scope.thingResults = true;
         var searchData = {
             searchFor: searchFor,
             type: $scope.browseWhat
         };
-        console.log(searchData);
-
         var things = $http({
             method: 'post',
             url: '/browseSearch',
@@ -414,12 +405,9 @@ app.controller('BrowseController', ['$scope', '$http', function ($scope, $http) 
         });
         things.success(function (response) {
             $scope.result = response;
-            console.log(response);
         });
         things.error(function (err) {
             console.log(err)
         });
     };
-
-
 }]);

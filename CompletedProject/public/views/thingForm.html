@@ -1,0 +1,91 @@
+<div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-12 col-xs-12 well">
+    <form class="form-horizontal" name="thingForm" enctype="multipart/form-data" novalidate>
+        <fieldset>
+            <legend>{{formTitle}}</legend>
+            <div class="form-group" ng-class="{'has-error' : thingForm.title.$invalid && (thingForm.title.$dirty || invalidForm)}">
+                <label for="inputTitle" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Titel</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <input type="text" name="title" class="form-control" id="inputTitle " ng-model="thing.title " required>
+                    <p ng-show="thingForm.title.$invalid && (thingForm.title.$dirty||invalidForm) " class="help-block ">Du måste ange en titel</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.category.$invalid && (thingForm.category.$dirty || invalidForm)}">
+                <label form="select" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Kategori</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <select class="form-control " id="selectCategory" name="category" ng-model="thing.category" required>
+                        <option value="Kläder">Kläder</option>
+                        <option value="Barn">Barn</option>
+                        <option value="Hem">För hemmet</option>
+                        <option value="Fordon">Fordon</option>
+                        <option value="Hemelektronik">Hemelektronik</option>
+                        <option value="SportOchFritid">Sport och fritid</option>
+                        <option value="Övrigt">Övrigt</option>
+                    </select>
+                    <p ng-show="thingForm.category.$invalid && (thingForm.category.$dirty||invalidForm)" class="help-block">Du måste välja en kategori</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.location.$invalid && (thingForm.location.$dirty || invalidForm)}">
+                <label form="select " class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Plats</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <select class="form-control" id="selectLocation" name="location" ng-model="thing.location" required>
+                        <option value="Malmö">Malmö</option>
+                        <option value="Uppsala">Uppsala</option>
+                        <option value="Stockholm">Stockholm</option>
+                        <option value="Umeå">Umeå</option>
+                        <option value="Kalmar">Kalmar</option>
+                        <option value="Göteborg">Göteborg</option>
+                        <option value="Östersund">Östersund</option>
+                        <option value="Kiruna">Kiruna</option>
+                        <option value="Falun">Falun</option>
+                    </select>
+                    <p ng-show="thingForm.location.$invalid && (thingForm.location.$dirty||invalidForm) " class="help-block ">Du måste välja en plats</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.firstName.$invalid && (thingForm.firstName.$dirty || invalidForm)}">
+                <label for="inputFirstName " class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Förnamn</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <input class="form-control " id="inputFirstName " name="firstName " type="text " ng-model="thing.firstName " required>
+                    <p ng-show="thingForm.firstName.$invalid && (thingForm.firstName.$dirty||invalidForm) " class="help-block ">Du måste ange ditt förnamn</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.lastName.$invalid && (thingForm.lastName.$dirty || invalidForm)}">
+                <label for="inputLastName " class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Efternamn</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <input class="form-control " id="inputLastName " name="lastName " type="text " ng-model="thing.lastName " required>
+                    <p ng-show="thingForm.lastName.$invalid && (thingForm.lastName.$dirty||invalidForm) " class="help-block ">Du måste ange ditt efternamn</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputTelephone" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Telefon</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <input class="form-control " id="inputTelephone " type="text " ng-model="thing.telephone ">
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.email.$invalid && (thingForm.email.$dirty || invalidForm)}">
+                <label for="inputEmail " class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Epost</label>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <input class="form-control " id="inputEmail " name="email " type="email " ng-model="thing.email " required>
+                    <p ng-show="thingForm.email.$invalid && (thingForm.email.$dirty||invalidForm) " class="help-block ">Ange en korrekt epostadress</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : thingForm.description.$invalid && (thingForm.description.$dirty || invalidForm)}">
+                <label for="inputDescription " class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">Beskrivning</label>
+
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <textarea class="form-control " id="inputDescription " name="description " ng-maxlength="500 " ng-model="thing.description " required>
+                    </textarea>
+                    <p ng-show="thingForm.description.$invalid && (thingForm.description.$dirty||invalidForm) " class="help-block ">Du måste ange en beskrivning</p>
+                    <p ng-show="thingForm.description.$error.maxlength" class="help-block ">Beskrivningen får inte vara längre än 500 tecken</p>
+                </div>
+            </div>
+            <div>
+                <a href="# " ng-click="cloudinary() " class="btn btn-default ">{{imgButtonText}}</a>
+                <img ng-src="{{thing.thumbnailpath}} " id="thumbnailimg">
+            </div>
+            <div>
+                <p ng-show="invalidForm " class="help-block">Du har inte fyllt i alla fält korrekt. Gå tillbaka och kontrollera vilka fält du missat</p>
+                <button class="btn btn-success " ng-click="preview(thingForm.$valid) ">Förhandsgranska</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

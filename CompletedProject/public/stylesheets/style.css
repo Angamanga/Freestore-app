@@ -1,0 +1,26 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #058C42;
+}
+
+a {
+    color: #144253;
+}
+
+img.thumb {
+width: 10%;
+    height: auto;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.thingImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#pagecontainer {
+    margin-top: 5em;
+}

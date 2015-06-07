@@ -9,19 +9,8 @@
      //definierar objekt för ny sak
      var newThing;
 
-     //  app.get('/nysak', function (req, res) {
-     //    res.render('newThing');
-     //     });
-
      function saveInfo(req, res) {
          cloudinary.config(cloudinaryConfig.cloudinaryCredentials);
-
-         console.log(req.body.title);
-         console.log(req.body.category);
-         console.log(req.body.telephone);
-         console.log(req.body.email);
-         console.log(req.files.file.path);
-
 
          cloudinary.uploader.upload(req.files.file.path, function (result) {
              if (result.url) {
@@ -37,7 +26,6 @@
                      location: req.body.location,
                      photopath: result.url
                  }
-                 console.log(newThing);
                  res.send(newThing);
              } else {
                  console.log('error uploading to cloudinary: ', result);
@@ -51,12 +39,7 @@
          saveInfo(req, res)
      });
 
-     //     app.get('/forhandsgranska', function (req, res) {
-     //         res.render('preview');
-     //         });
-
      app.get('/newthing', function (req, res) {
-         console.log(newThing);
          res.json(newThing);
      });
 
